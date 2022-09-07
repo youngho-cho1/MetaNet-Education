@@ -1,0 +1,41 @@
+package app;
+
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.*;
+
+
+@SuppressWarnings("serial")
+public class BankApp_Main extends JFrame {
+	BankApp_Main() {
+		setTitle("Main");
+		creatMenu();
+		setBounds(200, 200, 400, 250);
+		setVisible(true);
+	}
+	void createMenu() {
+		JMenuBar mb = new JMenuBar();
+		JMenu screenMenu = new JMenu("Screen");
+		
+		screenMenu.add(new JMenuItem("Load"));
+		screenMenu.add(new JMenuItem("Hide"));
+		screenMenu.add(new JMenuItem("Reshow"));
+		screenMenu.addSeparator();
+		screenMenu.add(new JMenuItem("Exit"));
+		
+		mb.add(screenMenu);
+		mb.add(new JMenu("Edit"));
+		mb.add(new JMenu("Edit"));
+		mb.add(new JMenu("Edit"));
+		mb.add(new JMenu("Edit"));
+		setJMenuBar(mb);
+		
+		
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		new BankApp_Main();
+	}
+
+}

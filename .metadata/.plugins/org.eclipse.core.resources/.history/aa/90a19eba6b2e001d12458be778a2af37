@@ -1,0 +1,49 @@
+package app;
+
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.*;
+
+
+@SuppressWarnings("serial")
+public class BankApp_Main extends JFrame {
+	MenuEx() {
+		setTitle("Main");
+		creatMenu();
+		setBounds(200, 200, 400, 250);
+		setVisible(true);
+	}
+	public BankApp_Main() {
+		super("Main");
+		
+		
+		jp.setPreferredSize(new Dimension(10,10));
+		jp.add(push);jp.add(pull);jp.add(balance);jp.add(logout);
+		jp.setLayout(new GridLayout(2,2));
+		add(jp);
+		setBounds(200, 200, 500, 500);
+		setResizable(false); 
+		setVisible(true);
+
+		logout.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+			
+				JOptionPane.showMessageDialog
+				(null, "로그아웃하셨습니다.");
+				new BankApp_Login();
+				setVisible(false);
+	
+			}
+			
+		});
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		new BankApp_Main();
+	}
+
+}

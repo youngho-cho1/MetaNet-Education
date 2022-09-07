@@ -1,0 +1,17 @@
+package test;
+
+import java.util.Calendar;
+
+public class Ex0 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		final String[]DAY_OF_WEEK = {"","일","월","화","수","목","금","토"};
+		
+		Calender date1 = Calendar.getInstance();
+		Calender date2 = Calendar.getInstance();
+		
+		date1.set
+	}
+
+}

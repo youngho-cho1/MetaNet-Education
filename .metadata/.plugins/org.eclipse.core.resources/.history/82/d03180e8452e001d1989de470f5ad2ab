@@ -1,0 +1,20 @@
+package test;
+import java.util.*;
+public class TimerEx {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Timer m_timer = new Timer();
+		int cnt = 0;
+		TimerTask m_task = new TimerTask() {
+			public void run() {
+				while(cnt == 10) {
+					System.out.println("Morph");
+					cnt++;
+				}
+			}
+		};
+		m_timer.schedule(m_task, 1000, 2000);
+	}
+
+}

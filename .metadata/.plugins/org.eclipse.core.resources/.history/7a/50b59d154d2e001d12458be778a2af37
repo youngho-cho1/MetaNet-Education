@@ -1,0 +1,43 @@
+package test;
+import java.util.*;
+public class MyCalendar {
+	static MyCalendar myCalendar = new MyCalander();
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		myCalendar.starter();
+	}
+	public void starter() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("현재 달력 출력: a, 과거 달력 출력: z ");
+		String input = sc.next();
+		switch(input) {
+		case "a":
+			buildCurrentCalendar();
+			break;
+		case "b":
+			int year = getYear();
+			int month = getMonth();
+			buildCurrentCalendar(year, month);
+			break;
+		case "c":
+			System.out.println("오류입니다.");
+			starter();
+			break;
+		}
+	}
+	public int getYear() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("\n 출력을 원하는 연도를 숫자로 입력하세요");
+		int yearInput = sc.nextInt();
+		if(yearInput <= 0) {
+			System.out.println("연도는 자연수로 입력해주세요.");
+			yearInput = sc.nextInt();
+		}
+		return yearInput;
+	}
+	public int getMonth() {
+		Scanner sc = new Scanner(System.in);
+	}
+
+}
+	
