@@ -86,6 +86,7 @@ public class BankApp_Join extends JFrame  {
 			public void actionPerformed(ActionEvent e) {
 				
 				
+				
 				member.setName(name.getText());
 				member.setAccount(account.getText());
 				member.setPasswd(String.valueOf(pwd.getPassword()));
@@ -100,20 +101,44 @@ public class BankApp_Join extends JFrame  {
 				members.add(member);
 				
 				try {
-					if(member.getBankname().isEmpty() == true) {
+					if(member.getBankname().isEmpty()) {
 						JOptionPane.showMessageDialog
 						(null, "공백란을 입력해주세요.");
 						new BankApp_Join();
 						dispose();
 					}
+					
 					else {
-						JOptionPane.showMessageDialog
-						(null, "은행 : "+ member.getBankname() + ", 이름 : "+ member.getName() +
-								", 계좌 : "+ member.getAccount() + ", 비밀번호 : "+ member.getPasswd() + "\n"+
-								members.size()+"번째 가입을 축하드립니다.");
-						count ++ ;
-						new BankApp_Login();
-						dispose();
+						if(count > 0) {
+							for(int i=0; i < members.size(); i++) {
+									if(account.getText().equals(members.get(i).getAccount())) {
+										
+										JOptionPane.showMessageDialog
+										(null, "정보가 중복됩니다.");
+										System.out.println("member.getAccount()"+member.getAccount());
+										System.out.println("account.getText():" +account.getText());
+										System.out.println("members.get(0).getAccount()" + members.get(0).getAccount());
+										break;
+											
+									}else {
+										JOptionPane.showMessageDialog
+										(null, "은행 : "+ member.getBankname() + ", 이름 : "+ member.getName() +
+												", 계좌 : "+ member.getAccount() + ", 비밀번호 : "+ member.getPasswd() + "\n"+
+												members.size()+"번째 가입을 축하드립니다.");
+										count ++ ;
+										new BankApp_Login();
+										dispose();
+									}
+							}
+						}else {
+							JOptionPane.showMessageDialog
+							(null, "은행 : "+ member.getBankname() + ", 이름 : "+ member.getName() +
+									", 계좌 : "+ member.getAccount() + ", 비밀번호 : "+ member.getPasswd() + "\n"+
+									members.size()+"번째 가입을 축하드립니다.");
+							count ++ ;
+							new BankApp_Login();
+							dispose();
+						}
 						
 					}
 				}
@@ -133,26 +158,10 @@ public class BankApp_Join extends JFrame  {
 	}
 
 }
-//else {
-//	if(count > 0) {
-//		if(members.size()> 0) {
-//			for(int i=0;i<members.size()+1;i++) {
-//				for(int j =i+1; j<members.size()+1;j++) {
-//					if(members.get(i) == members.get(j)) {
-//						JOptionPane.showMessageDialog
-//						(null, "정보가 중복됩니다. 회원가입을 다시 해주세요");
-//					}else {
-//						JOptionPane.showMessageDialog
-//						(null, "뚫림");
-//					}
-//				}
-//			}
-//		}
-//	}else {
-//		
-//	}
-//}
-//else {
-//	
-
-//}
+//JOptionPane.showMessageDialog
+//(null, "은행 : "+ member.getBankname() + ", 이름 : "+ member.getName() +
+//		", 계좌 : "+ member.getAccount() + ", 비밀번호 : "+ member.getPasswd() + "\n"+
+//		members.size()+"번째 가입을 축하드립니다.");
+//count ++ ;
+//new BankApp_Login();
+//dispose();
