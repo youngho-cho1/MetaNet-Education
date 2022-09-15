@@ -11,6 +11,7 @@ import java.util.List;
 public class BankApp_Join extends JFrame  {
 	static Member member = new Member();
 	static List<Member> members= new ArrayList<>();
+	AppDao appdao = new AppDao();
 	static int count = 0;
 	String choice = null;
 	public BankApp_Join() {
@@ -24,15 +25,15 @@ public class BankApp_Join extends JFrame  {
 		JTextField name = new JTextField(10);
 		JTextField account = new JTextField(10);
 		JPasswordField pwd = new JPasswordField(10);
-		
+	
 //		JPanel bankPanel = new JPanel();
 //		bankPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 //		bankPanel.add(new JLabel("은행 : "));
 //		bankPanel.add(bank);
 		
-		JRadioButton a = new JRadioButton("기업은행");
-		JRadioButton b = new JRadioButton("농협은행");
-		JRadioButton c = new JRadioButton("신한은행");
+		JRadioButton a = new JRadioButton("기업");
+		JRadioButton b = new JRadioButton("농협");
+		JRadioButton c = new JRadioButton("신한");
 		
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(a);bg.add(b);bg.add(c);
@@ -85,8 +86,6 @@ public class BankApp_Join extends JFrame  {
 		join.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				
-				
 				member.setName(name.getText());
 				member.setAccount(account.getText());
 				member.setPasswd(String.valueOf(pwd.getPassword()));
@@ -95,10 +94,14 @@ public class BankApp_Join extends JFrame  {
 					member.setBankname(a.getText());
 				}else if(b.isSelected()) {
 					member.setBankname(b.getText());
-				}else if(a.isSelected()) {
+				}else if(c.isSelected()) {
 					member.setBankname(c.getText());
 				}
 				members.add(member);
+			
+				String sql = "insert into member(bankname, name, pwd, account, despoit) values(?,?,?,?,0)";
+				
+				appdao.insert(sql);
 				
 				try {
 					if(member.getBankname().isEmpty()) {
@@ -112,19 +115,16 @@ public class BankApp_Join extends JFrame  {
 						if(count > 0) {
 							for(int i=0; i < members.size(); i++) {
 									if(account.getText().equals(members.get(i).getAccount())) {
-										
+										// 문제 1 : members.get(i).getAccount 로 찍지만 무조건 2번째에서 if문 걸림. ㄷㄷ;
 										JOptionPane.showMessageDialog
 										(null, "정보가 중복됩니다.");
-										System.out.println("member.getAccount()"+member.getAccount());
-										System.out.println("account.getText():" +account.getText());
-										System.out.println("members.get(0).getAccount()" + members.get(0).getAccount());
+
 										break;
 											
 									}else {
 										JOptionPane.showMessageDialog
 										(null, "은행 : "+ member.getBankname() + ", 이름 : "+ member.getName() +
-												", 계좌 : "+ member.getAccount() + ", 비밀번호 : "+ member.getPasswd() + "\n"+
-												members.size()+"번째 가입을 축하드립니다.");
+												", 계좌 : "+ member.getAccount() + ", 비밀번호 : "+ member.getPasswd() + "\n"+"가입을 축하드립니다.");
 										count ++ ;
 										new BankApp_Login();
 										dispose();
@@ -134,7 +134,7 @@ public class BankApp_Join extends JFrame  {
 							JOptionPane.showMessageDialog
 							(null, "은행 : "+ member.getBankname() + ", 이름 : "+ member.getName() +
 									", 계좌 : "+ member.getAccount() + ", 비밀번호 : "+ member.getPasswd() + "\n"+
-									members.size()+"번째 가입을 축하드립니다.");
+									"번째 가입을 축하드립니다.");
 							count ++ ;
 							new BankApp_Login();
 							dispose();

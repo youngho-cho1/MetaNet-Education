@@ -1,16 +1,21 @@
 package app;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.*;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.*;
 
-@SuppressWarnings("serial")
+
 public class BankApp_Login extends JFrame {
-	static Member member = new Member();
-	static List<Member> members= new ArrayList<>();
+//	static Member member = new Member();
+//	static List<Member> members= new ArrayList<>();
+	AppDao appdao = new AppDao();
 	public BankApp_Login() {
+		
 		super("Login");
 		JPanel title = new JPanel();
 		JLabel login = new JLabel("로그인 화면");
@@ -29,7 +34,6 @@ public class BankApp_Login extends JFrame {
 		idPanel2.add(jtf1);
 		// 아이디 필드 입력칸
 		
-	
 		JPanel pwdPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		JLabel jlb2 = new JLabel("비밀번호 : ", JLabel.CENTER);
 		JPanel pwdPanel2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -88,52 +92,68 @@ public class BankApp_Login extends JFrame {
 		add(title, BorderLayout.NORTH);
 		add(jp2, BorderLayout.CENTER);
 		setBounds(200, 200, 400, 250);
-//		setResizable(false); 
-		// 크기 고정
 		setVisible(true);
 		
 		jLogin.addActionListener(new ActionListener(){
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				String myName = BankApp_Join.member.getName();
-				String myPwd = BankApp_Join.member.getPasswd();
-				String myBank = BankApp_Join.member.getBankname();
-				String password = String.valueOf(jtf2.getPassword());
-				int deposit = BankApp_Join.member.getDeposit();
-				int size = BankApp_Join.members.size();
-				if(size == 0) {
-					JOptionPane.showMessageDialog
-					(null,"회원가입 후 이용해주세요");
-					new BankApp_Join();
-					dispose();
-				}
-				for(int i =0; i < size; i++) {
-				if(myName.equals(jtf1.getText()) && myPwd.equals(password)) {
-					JOptionPane.showMessageDialog
-					(null,myBank+" "+myName+ "고객님 안녕하세요.");
-					new BankApp_Main();
-					break;
+				try {
+					String radio = "";
+					if (a.isSelected()) {
+						radio = a.getText();
+					} else if (b.isSelected()){
+						radio = b.getText();
+					}
+					else if (c.isSelected()){
+						radio = c.getText();
+					}
 					
-				}
-				else {
-					JOptionPane.showMessageDialog
-					(null,"로그인 정보가 맞지 않습니다.");
-					new BankApp_Login();
-					dispose();
-					break;
-			}
-			
-		}
+					AppDao.pstmt = AppDao.conn.prepareStatement(AppDao.select());
+					AppDao.rs = AppDao.pstmt.executeQuery();
+					AppDao.rsmd = AppDao.rs.getMetaData();
+					int cols = AppDao.rsmd.getColumnCount();
+//					for(int i=1; i <= cols; i++) {
+//						System.out.println(AppDao.rsmd.getColumnName(i) + "\t");
+//					}
+					List<User> data = new ArrayList<>();
+					while(AppDao.rs.next()) {
+						User user = new User().setBankname(AppDao.rs.getString(1)).setName(AppDao.rs.getString(2)).setPw(AppDao.rs.getString(3));
+						// bankname, name, account, pw
+						data.add(user);
+					}
+					Iterator<User> iterator = data.iterator();
+					while(iterator.hasNext()) {
+						User userinfo = iterator.next();
+//						System.out.println(userinfo.getBankname() + "\t" + userinfo.getName()+ "\t" +userinfo.getPw());
+						for(int i=0; i < data.size(); i++) {
+							if(radio.equals(userinfo.getBankname()) && jtf1.getText().equals(userinfo.getName()) && String.valueOf(jtf2.getPassword()).equals(userinfo.getPw())) {
+								JOptionPane.showMessageDialog(null,userinfo.getBankname()+"은행" + userinfo.getName() + "고객님 안녕하세요.");
+								new BankApp_Main();
+							}
+							else {
+								System.out.println(userinfo.getBankname());
+								
+							JOptionPane.showMessageDialog
+		                  (null,"로그인 정보가 맞지 않습니다.");
+							break;
+						}
+						}
 
-	
-				
+					}
+					
+				}catch(Exception ex) {
+					ex.printStackTrace();
+				}finally {
+					try {
+						if(AppDao.rs != null) AppDao.rs.close();
+						if(AppDao.pstmt != null) AppDao.pstmt.close();
+						if(AppDao.conn != null) AppDao.conn.close();
+					}catch(Exception ex8) {}
+				}
 		}
 		
 	});
 	
-
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
