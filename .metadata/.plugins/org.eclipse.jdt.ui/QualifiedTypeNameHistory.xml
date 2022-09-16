@@ -8,7 +8,6 @@
     <fullyQualifiedTypeName name="java.awt.event.WindowEvent"/>
     <fullyQualifiedTypeName name="java.awt.event.WindowAdapter"/>
     <fullyQualifiedTypeName name="javax.swing.JPanel"/>
-    <fullyQualifiedTypeName name="app.BankApp_Join"/>
     <fullyQualifiedTypeName name="app.BankApp_Push"/>
     <fullyQualifiedTypeName name="javax.swing.JFrame"/>
     <fullyQualifiedTypeName name="java.awt.Panel"/>
@@ -20,7 +19,6 @@
     <fullyQualifiedTypeName name="java.io.File"/>
     <fullyQualifiedTypeName name="java.lang.Thread"/>
     <fullyQualifiedTypeName name="java.awt.event.KeyListener"/>
-    <fullyQualifiedTypeName name="java.awt.event.KeyEvent"/>
     <fullyQualifiedTypeName name="java.io.IOException"/>
     <fullyQualifiedTypeName name="java.util.Collections"/>
     <fullyQualifiedTypeName name="java.net.ServerSocket"/>
@@ -32,7 +30,17 @@
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="javax.management.relation.Role"/>
-    <fullyQualifiedTypeName name="app.AppDao"/>
+    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+    <fullyQualifiedTypeName name="com.mysql.cj.xdevapi.Statement"/>
+    <fullyQualifiedTypeName name="app.BankApp_Join"/>
     <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+    <fullyQualifiedTypeName name="com.mysql.cj.jdbc.result.ResultSetMetaData"/>
+    <fullyQualifiedTypeName name="java.awt.event.KeyEvent"/>
+    <fullyQualifiedTypeName name="java.sql.SQLException"/>
     <fullyQualifiedTypeName name="java.util.Iterator"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="java.sql.ResultSetMetaData"/>
+    <fullyQualifiedTypeName name="java.sql.Statement"/>
+    <fullyQualifiedTypeName name="com.mysql.cj.protocol.Resultset"/>
+    <fullyQualifiedTypeName name="app.AppDao"/>
 </qualifiedTypeNameHistroy>

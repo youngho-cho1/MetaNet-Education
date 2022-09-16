@@ -1,18 +1,27 @@
 package app;
 import javax.swing.*;
+
+import com.mysql.cj.xdevapi.Statement;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 @SuppressWarnings("serial")
 public class BankApp_Join extends JFrame  {
 	static Member member = new Member();
 	static List<Member> members= new ArrayList<>();
+	static int count = 0, sus = 0;
 	AppDao appdao = new AppDao();
-	static int count = 0;
 	String choice = null;
 	public BankApp_Join() {
 		setTitle("회원관리");
@@ -24,12 +33,8 @@ public class BankApp_Join extends JFrame  {
 		JTextField bank = new JTextField(10);
 		JTextField name = new JTextField(10);
 		JTextField account = new JTextField(10);
+		JTextField id = new JTextField(10);
 		JPasswordField pwd = new JPasswordField(10);
-	
-//		JPanel bankPanel = new JPanel();
-//		bankPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-//		bankPanel.add(new JLabel("은행 : "));
-//		bankPanel.add(bank);
 		
 		JRadioButton a = new JRadioButton("기업");
 		JRadioButton b = new JRadioButton("농협");
@@ -42,6 +47,11 @@ public class BankApp_Join extends JFrame  {
 		radioPanel.add(a);
 		radioPanel.add(b);
 		radioPanel.add(c);
+		
+		JPanel idPanel = new JPanel();
+		idPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		idPanel.add(new JLabel("아이디 : "));
+		idPanel.add(id);
 		
 		JPanel namePanel = new JPanel();
 		namePanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -60,7 +70,7 @@ public class BankApp_Join extends JFrame  {
 		
 		JPanel formPanel = new JPanel();
 		formPanel.setLayout(new GridLayout(4, 1));
-//		formPanel.add(bankPanel);
+		formPanel.add(idPanel);
 		formPanel.add(namePanel);
 		formPanel.add(accountPanel);
 		formPanel.add(pwdPanel);
@@ -84,12 +94,27 @@ public class BankApp_Join extends JFrame  {
 		setVisible(true);
 		
 		join.addActionListener(new ActionListener() {
+			
+			Connection conn = AppDao.getInstance().getConnection();
+			PreparedStatement pstmt = null;
+			Statement stmt = null;
+			ResultSet rs = null;
+			ResultSetMetaData rsmd = null;
+			List<Info> data = new ArrayList<>();
 			public void actionPerformed(ActionEvent e) {
 				
 				member.setName(name.getText());
+				member.setId(id.getText());
 				member.setAccount(account.getText());
 				member.setPasswd(String.valueOf(pwd.getPassword()));
-				
+				try {
+					pstmt =conn.prepareStatement(AppDao.select());
+					rs = pstmt.executeQuery();
+					rsmd = rs.getMetaData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				if(a.isSelected()) {
 					member.setBankname(a.getText());
 				}else if(b.isSelected()) {
@@ -99,69 +124,21 @@ public class BankApp_Join extends JFrame  {
 				}
 				members.add(member);
 			
-				String sql = "insert into member(bankname, name, pwd, account, despoit) values(?,?,?,?,0)";
-				
-				appdao.insert(sql);
-				
-				try {
-					if(member.getBankname().isEmpty()) {
-						JOptionPane.showMessageDialog
-						(null, "공백란을 입력해주세요.");
-						new BankApp_Join();
-						dispose();
-					}
-					
-					else {
-						if(count > 0) {
-							for(int i=0; i < members.size(); i++) {
-									if(account.getText().equals(members.get(i).getAccount())) {
-										// 문제 1 : members.get(i).getAccount 로 찍지만 무조건 2번째에서 if문 걸림. ㄷㄷ;
-										JOptionPane.showMessageDialog
-										(null, "정보가 중복됩니다.");
-
-										break;
-											
-									}else {
-										JOptionPane.showMessageDialog
-										(null, "은행 : "+ member.getBankname() + ", 이름 : "+ member.getName() +
-												", 계좌 : "+ member.getAccount() + ", 비밀번호 : "+ member.getPasswd() + "\n"+"가입을 축하드립니다.");
-										count ++ ;
-										new BankApp_Login();
-										dispose();
-									}
-							}
-						}else {
-							JOptionPane.showMessageDialog
-							(null, "은행 : "+ member.getBankname() + ", 이름 : "+ member.getName() +
-									", 계좌 : "+ member.getAccount() + ", 비밀번호 : "+ member.getPasswd() + "\n"+
-									"번째 가입을 축하드립니다.");
-							count ++ ;
-							new BankApp_Login();
-							dispose();
-						}
-						
-					}
+	
+				appdao.insert();
+				if(sus > 0) {
+					new BankApp_Login();
+					dispose();
 				}
-				catch(NullPointerException e1){
-					System.out.println("공백란을 입력해주세요. " + e1.getMessage());
-				}
+				
+				
 			}
 		});
-		
 		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new BankApp_Login();
 				dispose();
 			}
 		});
-		
 	}
-
 }
-//JOptionPane.showMessageDialog
-//(null, "은행 : "+ member.getBankname() + ", 이름 : "+ member.getName() +
-//		", 계좌 : "+ member.getAccount() + ", 비밀번호 : "+ member.getPasswd() + "\n"+
-//		members.size()+"번째 가입을 축하드립니다.");
-//count ++ ;
-//new BankApp_Login();
-//dispose();

@@ -33,4 +33,10 @@
 	</section>
 	<section name="NewWizardAction">
 	</section>
+	<section name="ImportExportAction">
+		<item key="ImportExportPage.STORE_SELECTED_IMPORT_WIZARD_ID" value="org.tigris.subversion.subclipse.ui.wizards.import.CheckoutWizard"/>
+		<list key="ImportExportPage.STORE_EXPANDED_IMPORT_CATEGORIES">
+			<item value="org.tigris.subversion.subclipse.ui.svn"/>
+		</list>
+	</section>
 </section>

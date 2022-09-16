@@ -3,7 +3,14 @@ package app;
 public class Member {
 	private String bankname;
 	private String name;
+	private String id;
 	private String account;
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	private String passwd;
 	private int deposit;
 	

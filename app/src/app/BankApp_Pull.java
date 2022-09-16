@@ -105,7 +105,6 @@ public class BankApp_Pull extends JFrame {
 			case "로그아웃":{
 				JOptionPane.showMessageDialog
 				(null,"로그아웃하셨습니다.");
-				new BankApp_Login();
 				dispose();
 				break;
 			}
