@@ -106,7 +106,6 @@ public class BankApp_Login extends JFrame {
 		jLogin.addActionListener(new ActionListener() {
 			Connection conn = AppDao.getInstance().getConnection();
 			PreparedStatement pstmt = null;
-			Statement stmt = null;
 			ResultSet rs = null;
 			ResultSetMetaData rsmd = null;
 			@Override
