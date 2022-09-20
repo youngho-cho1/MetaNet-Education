@@ -28,7 +28,7 @@ public class PWDfail extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
-		response.getWriter().append("비밀번호가 틀렸습니다.");
+		response.getWriter().append("FooterServlet");
 	}
 
 	/**

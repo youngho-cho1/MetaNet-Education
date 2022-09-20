@@ -2,34 +2,18 @@ package test;
 
 import java.sql.*;
 
-class User{
-	private String id;
-	private String pwd;
-	public String getId() {
-		return id;
-	}
-	public User setId(String id) {
-		this.id = id;
-		return this;
-	}
-	public String getPwd() {
-		return pwd;
-	}
-	public User setPwd(String pwd) {
-		this.pwd = pwd;
-		return this;
-	}
+import javax.naming.*;
+import javax.sql.DataSource;
 
-}
 public class DBUtil {
-
+	
     private static DBUtil instance;
     private Connection conn;
+    private DataSource ds;
     public DBUtil(){
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/webapp?autoReconnect=true", "root", "1234");
-        } catch (ClassNotFoundException | SQLException e) {
+        	ds =(DataSource)new InitialContext().lookup("java:/comp/env/jdbc/oracle");
+        } catch (NamingException e) {
             System.out.println("오류 : " + e.getStackTrace());
         }
     }
@@ -77,7 +61,12 @@ public class DBUtil {
 
     }
     public Connection getConnection() {
-        return this.conn;
+       try {
+    	   conn = ds.getConnection();
+       }catch(Exception e) {
+    	   e.printStackTrace();
+       }
+       return this.conn;
     }
     public void main(String[] ars) {
     	System.out.println("test");
