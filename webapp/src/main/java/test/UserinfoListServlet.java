@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.UserInfoDao;
+
 
 /**
  * Servlet implementation class UserinfoListServlet
@@ -34,35 +36,17 @@ public class UserinfoListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charaset=UTF-8");
-		PrintWriter out = response.getWriter();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		ResultSetMetaData rsmd = null;
-		RequestDispatcher rd3 = request.getRequestDispatcher("view/UserInfoList.jsp");
-		Connection conn = DBUtil.getInstance().getConnection();
-		List<User> data = new ArrayList<>();
-		
-		try {	
-			pstmt = conn.prepareStatement("SELECT id, pwd FROM MEMBER");
-			rs = pstmt.executeQuery();
-			rsmd = rs.getMetaData();
-			while(rs.next()) {
-				User user = new User().setId(rs.getString(1)).setPwd(rs.getString(2));
-				data.add(user);				
-			}
-			request.setAttribute("data", data);
-			rd3.forward(request, response);
-		}catch(SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(rs != null) rs.close();
-				if(pstmt != null)pstmt.close();
-				if(conn != null) conn.close();
-			}catch(Exception e) {}
-		}
-
 //		response.sendRedirect("/UserInfoList.jsp");
+		/* model 2 pattern : DAO */
+		try {
+			UserInfoDao userinfoDao = new UserInfoDaoImpl();
+			List<UserInfo> userinfos = userinfoDao.selectList();
+			request.setAttribute("userinfos", userinfos);
+			RequestDispatcher rd = request.getRequestDispatcher("view/UserInfoList.jsp");
+			rd.forward(request, response);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

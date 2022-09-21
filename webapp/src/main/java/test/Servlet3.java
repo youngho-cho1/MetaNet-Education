@@ -52,7 +52,7 @@ public class Servlet3 extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");
 		ResultSet rs = null;
-		List<User> data = new ArrayList<>();
+		List<UserInfo> data = new ArrayList<>();
 		Connection conn = null;
 		String sql = "select id, pwd from member";
 		try {
@@ -70,13 +70,13 @@ public class Servlet3 extends HttpServlet {
 			RequestDispatcher dispatcher3 = request.getRequestDispatcher("PWDfail");
 //			dispatcher.forward(request, response);
 			while(rs.next()) {
-				User user = new User().setId(rs.getString(1)).setPwd(rs.getString(2));
+				UserInfo user = new UserInfo().setId(rs.getString(1)).setPwd(rs.getString(2));
 			
 				data.add(user);
 			}
-			Iterator<User> iterator = data.iterator();
+			Iterator<UserInfo> iterator = data.iterator();
 			while(iterator.hasNext()) {
-				User userinfo = iterator.next();
+				UserInfo userinfo = iterator.next();
 				if(id.equals(userinfo.getId())) {
 					if(pwd.equals(userinfo.getPwd())) {
 						out.print("로그인에 성공하셧습니다");

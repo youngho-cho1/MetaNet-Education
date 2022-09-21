@@ -49,7 +49,7 @@ public class Servlet4 extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=utf-8");
 		ResultSet rs = null;
-		List<User> data = new ArrayList<>();
+		List<UserInfo> data = new ArrayList<>();
 		Connection conn = DBUtil.getInstance().getConnection();
 		PreparedStatement pstmt = null, pstmt2 = null;
 		ResultSetMetaData rsmd = null;
@@ -58,7 +58,7 @@ public class Servlet4 extends HttpServlet {
 		String pwd = request.getParameter("pwd");
 		String pwdc = request.getParameter("pwdcheck");
 		String id = request.getParameter("id");
-		Iterator<User> iterator = data.iterator();
+		Iterator<UserInfo> iterator = data.iterator();
 		try {
 			pstmt = conn.prepareStatement("insert into member(id,pwd) values(?,?)");
 			pstmt2 = conn.prepareStatement("select id, pwd from member");
@@ -80,7 +80,7 @@ public class Servlet4 extends HttpServlet {
 			out.print("</body></html>");
 			
 			while(rs.next()) {
-				User user = new User().setId(rs.getString(1)).setPwd(rs.getString(2));
+				UserInfo user = new UserInfo().setId(rs.getString(1)).setPwd(rs.getString(2));
 				if(id.equals(user.getId()) || !pwd.equals(pwdc)) {
 					dispatcher4.forward(request, response);
 					break;

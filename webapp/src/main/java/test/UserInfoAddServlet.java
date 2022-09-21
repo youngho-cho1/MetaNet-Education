@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.UserInfoDao;
+
 /**
  * Servlet implementation class UserInfoAddSservlet
  */
@@ -35,7 +37,11 @@ public class UserInfoAddServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charaset=UTF-8");
+		RequestDispatcher rd = request.getRequestDispatcher("view/Join.jsp");
+		rd.include(request, response);
 	}
 
 	/**
@@ -43,44 +49,33 @@ public class UserInfoAddServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		RequestDispatcher rd1 = request.getRequestDispatcher("UserinfoListServlet");
+		RequestDispatcher rd2 = request.getRequestDispatcher("UserInfoAddServlet");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charaset=UTF-8");
-		ResultSet rs = null;
-		List<User> data = new ArrayList<>();
-		Connection conn = DBUtil.getInstance().getConnection();
-		PreparedStatement pstmt = null, pstmt2 = null;
-		ResultSetMetaData rsmd = null;
+		PrintWriter out = response.getWriter();
+		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
 		String pwdc = request.getParameter("pwdcheck");
-		String id = request.getParameter("id");
-		PrintWriter out = response.getWriter();
-		Iterator<User> iterator = data.iterator();
 		try {
-			pstmt = conn.prepareStatement("insert into member(id,pwd) values(?,?)");
-			pstmt2 = conn.prepareStatement("select id, pwd from member");
-			rs = pstmt2.executeQuery();
-			rsmd=rs.getMetaData();
+			UserInfoDao userinfoDao = new UserInfoDaoImpl();
 			
-			while(rs.next()) {
-				User user = new User().setId(rs.getString(1)).setPwd(rs.getString(2));
-				if(id.equals(user.getId())) {
-					out.print("<script type='text/javascript'>");
-					out.print("alert('Id overlap !!.')</script>");
-					break;
-				}else if (!pwd.equals(pwdc)){
-					out.print("<script type='text/javascript'>");
-					out.print("alert('Check your Pwd !!.')</script>");
-					break;
-				}
+			UserInfo userinfo = new UserInfo().setId(id).setPwd(pwd);
 			
+			int result = userinfoDao.insert(userinfo);
+			
+			if(result > 0) {
+				rd1.include(request, response);
+			}else {
+				rd2.include(request, response);
 			}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		out.print("id" + id + "pwd" + pwd);
+
 		doGet(request,response);
+		
 		}
 	
 		
