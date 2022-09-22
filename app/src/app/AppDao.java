@@ -71,6 +71,40 @@ class UserName{
 		return this;
 	}
 }
+class UserDespoit{
+	private String bankname;
+	private String name;
+	private String account;
+	private int despoit;
+	public String getBankname() {
+		return bankname;
+	}
+	public UserDespoit setBankname(String bankname) {
+		this.bankname = bankname;
+		return this;
+	}
+	public String getName() {
+		return name;
+	}
+	public UserDespoit setName(String name) {
+		this.name = name;
+		return this;
+	}
+	public String getAccount() {
+		return account;
+	}
+	public UserDespoit setAccount(String account) {
+		this.account = account;
+		return this;
+	}
+	public int getDespoit() {
+		return despoit;
+	}
+	public UserDespoit setDespoit(int despoit) {
+		this.despoit = despoit;
+		return this;
+	}
+}
 public class AppDao {
 	static int join_cnt = 0;
 	private static AppDao instance;
@@ -189,22 +223,9 @@ public class AppDao {
 		}
 	}
 	
-	public void update(String sql) {
-		Statement stmt = null;
-		Connection conn = AppDao.getInstance().getConnection();
-		try {
-			stmt = conn.createStatement();
-			int result = stmt.executeUpdate(sql);
-			String msg = result > -1 ? "성공": "실패";
-			System.out.println(msg);
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				if(stmt != null) stmt.close();
-				if(conn != null) conn.close();
-			}catch(SQLException e) {}
-		}
+	public static String update() {
+		String sql = "SELECT BANKNAME, NAME, ACCOUNT, DESPOIT FROM MEMBER WHERE NAME=?";
+		return sql;
 	}
 
 	public static String select() {

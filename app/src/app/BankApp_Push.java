@@ -2,6 +2,11 @@ package app;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 
 import javax.swing.*;
 
@@ -43,18 +48,41 @@ public class BankApp_Push extends JFrame {
 		setVisible(true);
 		
 		btn.addActionListener(new ActionListener() {
-
+			Connection conn = AppDao.getInstance().getConnection();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			ResultSetMetaData rsmd = null;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String myName = BankApp_Join.member.getName();
 				int money = Integer.parseInt(jtf1.getText());
-				sum += money;
-				BankApp_Join.member.setDeposit(sum);
-				JOptionPane.showMessageDialog
-				(null,myName+"님의 입금 금액은 "+money+"원 이며 총 잔액은 "+ sum +"입니다.");
+				try {
+					
+					//"SELECT BANKNAME,NAME,ACCOUNT,DESPOIT FROM MEMBER WHERE NAME=?"
+//					sum += money;
+					pstmt = conn.prepareStatement(AppDao.update());		
+					pstmt.setString(1, BankApp_Login.w_name);
+					rs = pstmt.executeQuery();
+					rsmd = rs.getMetaData();
+					
+					while(rs.next()) {
+//					UserDespoit userdespoit = new UserDespoit().setDespoit(sum);
+					
+					sum = rs.getInt(4);
+					sum += money;
+					//sum에 대한 insert sql 문을 만들어서 pstmt2로 따로 작업해야함 update로
+					System.out.println(rs.getInt(4)); // 잔액
+					System.out.println(sum);
+					BankApp_Join.member.setDeposit(sum);
+					JOptionPane.showMessageDialog
+					(null,BankApp_Login.w_name+"님의 입금 금액은 "+money+"원 이며 총 잔액은 "+ rs.getInt(4) +"입니다.");
+					}
+				}catch(SQLException e1) {
+					e1.printStackTrace();
+				}
+				
+				
 			}
-			
 		});
 		
 	}

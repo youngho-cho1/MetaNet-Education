@@ -2,6 +2,13 @@ package app;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -42,10 +49,22 @@ public class BankApp_Pull extends JFrame {
 		setVisible(true);
 		
 		btn.addActionListener(new ActionListener() {
-
+			Connection conn = AppDao.getInstance().getConnection();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			ResultSetMetaData rsmd = null;
+			List<Info> data = new ArrayList<>();
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				try {
+					pstmt =conn.prepareStatement(AppDao.select()); 
+					rs = pstmt.executeQuery();
+					rsmd = rs.getMetaData();
+					
+				}catch(SQLException e1) {
+					e1.printStackTrace();
+				}
 				String myName = BankApp_Join.member.getName();
 				int money = Integer.parseInt(jtf1.getText());
 				if(BankApp_Push.sum - money < 0) {

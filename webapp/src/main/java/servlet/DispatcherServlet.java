@@ -1,0 +1,70 @@
+package servlet;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import controller.Controller;
+import test.UserInfo;
+
+@SuppressWarnings("serial")
+@WebServlet("*.do")
+public class DispatcherServlet extends HttpServlet{
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp)
+	throws ServletException, IOException{
+		super.service(req, resp);
+		resp.setContentType("text/html, charset=UTF-8");
+		String servletPath = req.getServletPath();
+		try {
+			ServletContext sc = this.getServletContext();
+			HashMap<String, Object> model = new HashMap<String, Object>();
+			model.put("session", req.getSession());
+			Controller controller = (Controller) sc.getAttribute(servletPath);
+			if(controller == null) {
+				throw new Exception("요청한 서비스를 찾을 수 없습니다.");
+			}
+			if("/userinfo/add.do".equals(servletPath)) {
+				if(req.getParameter("id") != null) {
+					model.put("userinfo",new UserInfo()
+							.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));	
+				} else if("userinfo/login.do".equals(servletPath)) {
+					if(req.getParameter("id") != null) {
+						model.put("userinfo", new UserInfo()
+							.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
+					}
+				}
+				String viewUrl = controller.execute(model);
+				for( String key : model.keySet()) {
+					req.setAttribute(key, model.get(key));
+				}
+				if(viewUrl.startsWith("redirect:")) {
+					resp.sendRedirect(viewUrl.substring(9));
+				}else {
+					RequestDispatcher rd = req.getRequestDispatcher(viewUrl);
+					rd.include(req, resp);
+				}
+			}
+
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+}

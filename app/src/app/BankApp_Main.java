@@ -33,7 +33,8 @@ public class BankApp_Main extends JFrame {
 		 * 
 		 * } }catch(SQLException e) { e.printStackTrace(); }
 		 */
-		
+	
+//		System.out.println(	BankApp_Login.w_name);
 		setTitle("메인");
 		createMenu();
 		setBounds(200, 200, 400, 250);
@@ -87,6 +88,7 @@ public class BankApp_Main extends JFrame {
 				(null,"로그아웃하셨습니다.");
 				BankApp_Login.cnt --;
 				dispose();
+				new BankApp_Login();
 				break;
 			}
 			case "도움말":{

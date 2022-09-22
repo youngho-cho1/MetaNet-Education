@@ -15,7 +15,7 @@ import com.mysql.cj.xdevapi.Statement;
 public class BankApp_Login extends JFrame {
 	static int cnt = 0;
 	List<User> data = new ArrayList<>();
-
+	static String w_name = "";
 
 	public BankApp_Login() {
 
@@ -132,6 +132,7 @@ public class BankApp_Login extends JFrame {
 						User user = new User().setBankname(rs.getString(1)).setName(rs.getString(2))
 								.setId(rs.getString(3)).setPw(rs.getString(4));
 						// bankname, name, account, pw
+	
 						data.add(user);
 					}
 					
@@ -141,6 +142,7 @@ public class BankApp_Login extends JFrame {
 							if (jtf1.getText().equals(userinfo.getId())) {
 								JOptionPane.showMessageDialog(null,
 										userinfo.getBankname() + "은행 " + userinfo.getName() + " 고객님 안녕하세요.");
+										w_name = userinfo.getName();
 								new BankApp_Main();
 								dispose();
 								cnt ++;

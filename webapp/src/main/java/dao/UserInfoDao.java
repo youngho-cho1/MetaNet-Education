@@ -16,7 +16,7 @@ public interface UserInfoDao {
 	int insert(UserInfo userinfo) throws Exception;
 	int delete(String id) throws Exception;
 	UserInfo selectOne(String id) throws Exception;
-	int updqte(UserInfo userinfo) throws Exception;
 	UserInfo exist(String id, String password) throws Exception;
+	int update(UserInfo userinfo) throws Exception;
 	
 }
