@@ -44,12 +44,12 @@ public class BankApp_Push extends JFrame {
 		add(title, BorderLayout.NORTH);
 		add(jp2, BorderLayout.CENTER);
 		jp1.add(pushPanel);jp1.add(pushPanel2);
-		setBounds(200, 200, 400, 250);
+		setBounds(200, 200, 380, 250);
 		setVisible(true);
 		
 		btn.addActionListener(new ActionListener() {
 			Connection conn = AppDao.getInstance().getConnection();
-			PreparedStatement pstmt = null;
+			PreparedStatement pstmt = null, pstmt2 = null;
 			ResultSet rs = null;
 			ResultSetMetaData rsmd = null;
 			@Override
@@ -58,24 +58,31 @@ public class BankApp_Push extends JFrame {
 				int money = Integer.parseInt(jtf1.getText());
 				try {
 					
-					//"SELECT BANKNAME,NAME,ACCOUNT,DESPOIT FROM MEMBER WHERE NAME=?"
+					//"SELECT BANKNAME,NAME,ACCOUNT,DESPOIT FROM MEMBER WHERE NAME=?"\
+					String sql = "SELECT BANKNAME,NAME,ACCOUNT,DESPOIT FROM MEMBER WHERE NAME=?";
 //					sum += money;
-					pstmt = conn.prepareStatement(AppDao.update());		
+					pstmt = conn.prepareStatement(sql);		
 					pstmt.setString(1, BankApp_Login.w_name);
 					rs = pstmt.executeQuery();
 					rsmd = rs.getMetaData();
 					
-					while(rs.next()) {
+					if(rs.next()) {
 //					UserDespoit userdespoit = new UserDespoit().setDespoit(sum);
-					
-					sum = rs.getInt(4);
-					sum += money;
+//					sum += money;
+					//money는 로컬에서 찍는 금액
 					//sum에 대한 insert sql 문을 만들어서 pstmt2로 따로 작업해야함 update로
-					System.out.println(rs.getInt(4)); // 잔액
-					System.out.println(sum);
+					System.out.println("rs.getInt : " + rs.getInt(4)); // 잔액
+					System.out.println("sum : " + sum);
+					sum = money + rs.getInt(4);
 					BankApp_Join.member.setDeposit(sum);
+					
+					pstmt2 = conn.prepareStatement(AppDao.update());
+					pstmt2.setInt(1, sum);
+					pstmt2.setString(2, BankApp_Login.w_name);
+					pstmt2.executeUpdate();
+			
 					JOptionPane.showMessageDialog
-					(null,BankApp_Login.w_name+"님의 입금 금액은 "+money+"원 이며 총 잔액은 "+ rs.getInt(4) +"입니다.");
+					(null,BankApp_Login.w_name+"님의 입금 금액은 "+money+"원 이며 총 잔액은 "+ sum +"입니다.");
 					}
 				}catch(SQLException e1) {
 					e1.printStackTrace();
@@ -133,6 +140,7 @@ public class BankApp_Push extends JFrame {
 				JOptionPane.showMessageDialog
 				(null,"로그아웃하셨습니다.");
 				dispose();
+				new BankApp_Login();
 				break;
 			}
 			case "도움말":{

@@ -19,14 +19,14 @@ public class UserInfoLoginController implements Controller {
 		// TODO Auto-generated method stub
 		
 		if(model.get("userinfo") == null){
-			return "Login.jsp";
+			return "/Login.jsp";
 		}else {
 			UserInfo loginInfo = (UserInfo) model.get("userinfo");
 			UserInfo userinfo = userinfoDao.exist(loginInfo.getId(), loginInfo.getPwd());
 			if(userinfo != null) {
 				HttpSession session = (HttpSession) model.get("session");
 				session.setAttribute("userinfo", userinfo);
-				return "redirect:../userinfo/list.do";
+				return "redirect:../UserInfoList.do";
 			}
 			else {
 				return "Error.jsp";

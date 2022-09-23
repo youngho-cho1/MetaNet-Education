@@ -37,7 +37,7 @@ public class BankApp_Main extends JFrame {
 //		System.out.println(	BankApp_Login.w_name);
 		setTitle("메인");
 		createMenu();
-		setBounds(200, 200, 400, 250);
+		setBounds(200, 200, 380, 250);
 		setVisible(true);
 	}
 	void createMenu() {

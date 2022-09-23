@@ -27,30 +27,59 @@ public class DispatcherServlet extends HttpServlet{
 			ServletContext sc = this.getServletContext();
 			HashMap<String, Object> model = new HashMap<String, Object>();
 			model.put("session", req.getSession());
+			System.out.println("servletPath: " +servletPath);
 			Controller controller = (Controller) sc.getAttribute(servletPath);
+			System.out.println("controller: " +controller);
 			if(controller == null) {
 				throw new Exception("요청한 서비스를 찾을 수 없습니다.");
 			}
 			if("/userinfo/add.do".equals(servletPath)) {
 				if(req.getParameter("id") != null) {
-					model.put("userinfo",new UserInfo()
-							.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));	
-				} else if("userinfo/login.do".equals(servletPath)) {
-					if(req.getParameter("id") != null) {
-						model.put("userinfo", new UserInfo()
-							.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
-					}
+					model.put("userinfo", new UserInfo()
+						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
 				}
-				String viewUrl = controller.execute(model);
-				for( String key : model.keySet()) {
-					req.setAttribute(key, model.get(key));
+				// 모델에 대한 정보만 넣고
+			}
+			else if("/userinfo/login.do".equals(servletPath)) {
+				if(req.getParameter("id") != null) {
+					model.put("userinfo", new UserInfo()
+						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
 				}
-				if(viewUrl.startsWith("redirect:")) {
-					resp.sendRedirect(viewUrl.substring(9));
-				}else {
-					RequestDispatcher rd = req.getRequestDispatcher(viewUrl);
-					rd.include(req, resp);
+				// 모델에 대한 정보만 넣고
+			}
+			else if("/userinfo/list.do".equals(servletPath)) {
+				if(req.getParameter("id") != null) {
+					model.put("userinfo", new UserInfo()
+						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
 				}
+			}
+			else if("/userinfo/update.do".equals(servletPath)) {
+				if(req.getParameter("id") != null) {
+					model.put("userinfo", new UserInfo()
+						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
+				}
+			}
+			else if("/userinfo/delete.do".equals(servletPath)) {
+				if(req.getParameter("id") != null) {
+					model.put("userinfo", new UserInfo()
+						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
+				}
+			}
+			else if("/userinfo/updateform.do".equals(servletPath)) {
+				if(req.getParameter("id") != null) {
+					model.put("userinfo", new UserInfo()
+						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
+				}
+			}
+			String viewUrl = controller.execute(model);
+			for( String key : model.keySet()) {
+				req.setAttribute(key, model.get(key));
+			}
+			if(viewUrl.startsWith("redirect:")) {
+				resp.sendRedirect(viewUrl.substring(9));
+			}else {
+				RequestDispatcher rd = req.getRequestDispatcher(viewUrl);
+				rd.include(req, resp);
 			}
 
 		}catch(Exception e) {

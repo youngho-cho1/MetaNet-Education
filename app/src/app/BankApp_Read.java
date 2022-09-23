@@ -2,6 +2,10 @@ package app;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 
 import javax.swing.*;
 
@@ -36,16 +40,30 @@ public class BankApp_Read extends JFrame {
 		add(title, BorderLayout.NORTH);
 		add(jp2, BorderLayout.CENTER);
 		jp1.add(pushPanel);jp1.add(pushPanel2);
-		setBounds(200, 200, 400, 250);
+		setBounds(200, 200, 380, 250);
 		setVisible(true);
 		btn.addActionListener(new ActionListener() {
-
+			Connection conn = AppDao.getInstance().getConnection();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			int money = 0;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				JOptionPane.showMessageDialog
-				(null,BankApp_Join.member.getName()+"님의 잔액은 \n"
-						+ BankApp_Join.member.getDeposit()+"원입니다.");
+				try {
+					pstmt = conn.prepareStatement("SELECT DESPOIT FROM MEMBER WHERE NAME=?");
+					pstmt.setString(1, BankApp_Login.w_name);
+					rs = pstmt.executeQuery();
+					
+					while(rs.next()) {
+						money = rs.getInt(1);
+						
+					}
+					JOptionPane.showMessageDialog
+					(null,BankApp_Login.w_name+"님의 총 잔액은 "+money+"원 입니다.");
+				}catch(Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 			
 		});
@@ -97,6 +115,7 @@ public class BankApp_Read extends JFrame {
 				JOptionPane.showMessageDialog
 				(null,"로그아웃하셨습니다.");
 				dispose();
+				new BankApp_Login();
 				break;
 			}
 			case "도움말":{

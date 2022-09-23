@@ -95,12 +95,12 @@ public class BankApp_Login extends JFrame {
 		// 로그인 회원가입 패널
 
 		JPanel jp2 = new JPanel();
-		jp2.setLayout(new FlowLayout());
+		jp2.setLayout(new FlowLayout(FlowLayout.LEFT,0, 0));
 		jp2.add(jp1);
 		setLayout(new BorderLayout());
 		add(title, BorderLayout.NORTH);
 		add(jp2, BorderLayout.CENTER);
-		setBounds(200, 200, 400, 250);
+		setBounds(200, 200, 380, 250);
 		setVisible(true);
 
 		jLogin.addActionListener(new ActionListener() {

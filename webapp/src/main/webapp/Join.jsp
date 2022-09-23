@@ -19,7 +19,6 @@
 		<input type="text" name="pwdcheck" size="10" placeholder="PWD check">	<p/>
 		
 		<input type="submit" value ="Join">
-	
 	</div>
 	</form>
 </body>

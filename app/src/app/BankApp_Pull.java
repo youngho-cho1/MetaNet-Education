@@ -12,8 +12,6 @@ import java.util.List;
 
 import javax.swing.*;
 
-import app.BankApp_Main.MenuActionListener;
-
 
 @SuppressWarnings("serial")
 public class BankApp_Pull extends JFrame {
@@ -45,37 +43,56 @@ public class BankApp_Pull extends JFrame {
 		add(title, BorderLayout.NORTH);
 		add(jp2, BorderLayout.CENTER);
 		jp1.add(pushPanel);jp1.add(pushPanel2);
-		setBounds(200, 200, 400, 250);
+		setBounds(200, 200, 380, 250);
 		setVisible(true);
 		
 		btn.addActionListener(new ActionListener() {
+			
 			Connection conn = AppDao.getInstance().getConnection();
-			PreparedStatement pstmt = null;
+			PreparedStatement pstmt = null, pstmt2 = null;
 			ResultSet rs = null;
 			ResultSetMetaData rsmd = null;
 			List<Info> data = new ArrayList<>();
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int money = Integer.parseInt(jtf1.getText());
+				int sum = 0;
 				// TODO Auto-generated method stub
 				try {
-					pstmt =conn.prepareStatement(AppDao.select()); 
+					String sql = "SELECT BANKNAME, NAME, ACCOUNT, DESPOIT FROM MEMBER WHERE NAME=?";
+					pstmt =conn.prepareStatement(sql); 
+					pstmt.setString(1, BankApp_Login.w_name);
 					rs = pstmt.executeQuery();
 					rsmd = rs.getMetaData();
+					
+				
+					BankApp_Push.sum -= money;
+					BankApp_Join.member.setDeposit(BankApp_Push.sum);
+					pstmt2 = conn.prepareStatement(AppDao.update());
+					pstmt2.setInt(1, BankApp_Push.sum);
+					pstmt2.setString(2, BankApp_Login.w_name);
+					
+					System.out.println("money:"+money);
+
+					if(rs.next()) {
+						System.out.println("rs.getInt(4)"+rs.getInt(4));
+						if(money > rs.getInt(4)) {
+							JOptionPane.showMessageDialog
+									(null,BankApp_Login.w_name+"님의 잔액이 부족합니다.");
+								
+						}
+							else {
+								sum = rs.getInt(4) - money;
+								pstmt2.executeUpdate();
+							JOptionPane.showMessageDialog
+							(null,BankApp_Login.w_name+"님의 출금 금액은 "+money+"원 이며 총 잔액은"+ BankApp_Push.sum +"입니다."); 
+							}
+						}
 					
 				}catch(SQLException e1) {
 					e1.printStackTrace();
 				}
-				String myName = BankApp_Join.member.getName();
-				int money = Integer.parseInt(jtf1.getText());
-				if(BankApp_Push.sum - money < 0) {
-					JOptionPane.showMessageDialog
-					(null,myName+"님의 잔액이 부족합니다.");
-				}else {BankApp_Push.sum -= money;
-				BankApp_Join.member.setDeposit(BankApp_Push.sum);
-				JOptionPane.showMessageDialog
-				(null,myName+"님의 출금 금액은 "+money+"원 이며 총 잔액은 "+ BankApp_Push.sum +"입니다.");}
-			}
-			
+				;}
 		});
 	}
 	void createMenu() {
@@ -125,6 +142,7 @@ public class BankApp_Pull extends JFrame {
 				JOptionPane.showMessageDialog
 				(null,"로그아웃하셨습니다.");
 				dispose();
+				new BankApp_Login();
 				break;
 			}
 			case "도움말":{

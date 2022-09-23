@@ -224,8 +224,9 @@ public class AppDao {
 	}
 	
 	public static String update() {
-		String sql = "SELECT BANKNAME, NAME, ACCOUNT, DESPOIT FROM MEMBER WHERE NAME=?";
+		String sql = "UPDATE MEMBER SET despoit=? WHERE NAME=?";
 		return sql;
+		
 	}
 
 	public static String select() {

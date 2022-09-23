@@ -21,6 +21,7 @@ public class UserInfoLoginAction implements Action {
 		HttpSession session = request.getSession();
 		try {
 			UserInfo userinfo = new UserInfoDaoImpl().exist(id,pwd);
+			System.out.println("userinfo : " +userinfo);
 			if(userinfo != null) { // 로그인 성공 후 세션 저장
 				session.setAttribute("userinfo", userinfo);
 				response.sendRedirect("ControllerServlet?command=list");

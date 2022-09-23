@@ -32,6 +32,6 @@ public class ServerSocketThread extends Thread {
 			sendMessage("대화자 이름을 넣으세요");
 			name = in.readLine();
 			server.broadCasting("[" + name + "]님이 입장하셨습니다.");
-		}
+		}catch(Exception e) {}
 	}
 }
