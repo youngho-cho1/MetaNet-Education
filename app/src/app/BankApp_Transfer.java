@@ -26,10 +26,10 @@ public class BankApp_Transfer extends JFrame {
 		JPanel jp1 = new JPanel();
 		jp1.setLayout(new GridLayout(4, 2));
 		JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		JLabel jlb1 = new JLabel("이름 : ", JLabel.CENTER);
+		JLabel jlb1 = new JLabel("계좌번호 : ", JLabel.CENTER);
 
 		idPanel.add(jlb1);
-		// 아이디 라벨
+		// 이름 라벨
 		JPanel idPanel2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JTextField jtf1 = new JTextField(10);
 
@@ -39,10 +39,10 @@ public class BankApp_Transfer extends JFrame {
 		JPanel pwdPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		JLabel jlb2 = new JLabel("금액 : ", JLabel.CENTER);
 		JPanel pwdPanel2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JPasswordField jtf2 = new JPasswordField(10);
+		JTextField jtf2 = new JTextField(10);
 
 		pwdPanel.add(jlb2);
-		// 비밀번호 라벨
+		// 금액 라벨
 		pwdPanel2.add(jtf2);
 		// 비밀번호 필드 입력칸
 
@@ -86,10 +86,10 @@ public class BankApp_Transfer extends JFrame {
 		JPanel rankPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		JButton rank = new JButton("등급");
 		JPanel joinPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JButton join = new JButton("계좌이체");
+		JButton tran = new JButton("계좌이체");
 
 		rankPanel.add(rank);
-		joinPanel.add(join);
+		joinPanel.add(tran);
 		jp1.add(rankPanel);
 		jp1.add(joinPanel);
 		// 로그인 회원가입 패널
@@ -102,6 +102,44 @@ public class BankApp_Transfer extends JFrame {
 		add(jp2, BorderLayout.CENTER);
 		setBounds(200, 200, 450, 250);
 		setVisible(true);
+		
+		rank.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JOptionPane.showMessageDialog(null,
+					"등급은 개발중입니다...");
+
+			}
+			
+		});
+		tran.addActionListener(new ActionListener() {
+			Connection conn = AppDao.getInstance().getConnection();
+			PreparedStatement pstmt = null, pstmt2 = null;
+			ResultSet rs = null;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				int money = Integer.parseInt(jtf2.getText());         //금액
+				String account = jtf1.getText();         //계좌번호
+				try {
+					String sql = "SELECT BANKNAME, NAME, PWD, ACCOUNT, DESPOIT FROM WHERE NAME=?";
+					String custom_sql = "SELECT BANKNAME, NAME, ACCOUNT, DESPOIT FROM WHERE NAME=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, BankApp_Login.w_name);
+					rs = pstmt.executeQuery();
+					if(rs.next()) {
+						
+					}
+					
+				}catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			
+		});
+		
 	}
 
 	void createMenu() {

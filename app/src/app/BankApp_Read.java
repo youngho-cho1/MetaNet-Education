@@ -42,6 +42,7 @@ public class BankApp_Read extends JFrame {
 		jp1.add(pushPanel);jp1.add(pushPanel2);
 		setBounds(200, 200, 380, 250);
 		setVisible(true);
+		
 		btn.addActionListener(new ActionListener() {
 			Connection conn = AppDao.getInstance().getConnection();
 			PreparedStatement pstmt = null;
