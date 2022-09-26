@@ -164,8 +164,7 @@ public class BankApp_Pull extends JFrame {
 				break;
 			}
 			case "이체":{
-				JOptionPane.showMessageDialog
-				(null," 이체는 개발중입니다...");
+				new BankApp_Transfer();
 				break;
 			}
 			case "조회":{

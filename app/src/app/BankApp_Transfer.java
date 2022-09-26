@@ -1,18 +1,28 @@
 package app;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 
-import javax.swing.*;
-
-import app.BankApp_Pull.MenuActionListener;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class BankApp_Transfer extends JFrame {
@@ -84,7 +94,7 @@ public class BankApp_Transfer extends JFrame {
 	
 
 		JPanel rankPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		JButton rank = new JButton("등급");
+		JButton rank = new JButton("내역");
 		JPanel joinPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JButton tran = new JButton("계좌이체");
 
@@ -115,22 +125,95 @@ public class BankApp_Transfer extends JFrame {
 			
 		});
 		tran.addActionListener(new ActionListener() {
+			LocalDate now = LocalDate.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+			String formatedNow = now.format(formatter);
+			
 			Connection conn = AppDao.getInstance().getConnection();
-			PreparedStatement pstmt = null, pstmt2 = null;
-			ResultSet rs = null;
+			PreparedStatement pstmt = null, pstmt2 = null, pstmt3 = null, pstmt4 = null;
+			ResultSet rs = null, rs2 = null;
+			int mission = 0;
+			int myMoney = 0;
+			int transMoney = 0;
+			int Commission = 0;
+			String transName = "";
+			String my_Bank = "";
+			String my_Account ="";
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				
 				int money = Integer.parseInt(jtf2.getText());         //금액
 				String account = jtf1.getText();         //계좌번호
 				try {
-					String sql = "SELECT BANKNAME, NAME, PWD, ACCOUNT, DESPOIT FROM WHERE NAME=?";
-					String custom_sql = "SELECT BANKNAME, NAME, ACCOUNT, DESPOIT FROM WHERE NAME=?";
+					String radio = "";
+					if (a.isSelected()) {
+						radio = a.getText();
+					} else if (b.isSelected()) {
+						radio = b.getText();
+					} else if (c.isSelected()) {
+						radio = c.getText();
+					}
+					String sql = "SELECT BANKNAME, NAME, PWD, ACCOUNT, DESPOIT FROM MEMBER WHERE NAME=?";
+					String custom_sql = "SELECT BANKNAME, NAME, ACCOUNT, DESPOIT FROM MEMBER WHERE BANKNAME=? AND ACCOUNT=?";
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, BankApp_Login.w_name);
 					rs = pstmt.executeQuery();
+					pstmt3 = conn.prepareStatement(custom_sql);
+					pstmt3.setString(1, radio);
+					pstmt3.setString(2, account);
+					rs2 = pstmt3.executeQuery();
 					if(rs.next()) {
+						System.out.println("BankName: " + rs.getString(1));
+						System.out.println("Despoit: " + rs.getInt(5));
+						my_Bank = rs.getString(1);
+						if(my_Bank.equals(radio)) {
+							Commission = 0;
+						}else {
+							Commission = 500;
+						}
+						if(rs.getInt(5) < money) {
+							JOptionPane.showMessageDialog
+							(null,BankApp_Login.w_name+"님의 잔액이 부족합니다.");
+						}else if (rs.getInt(5) < (money+Commission)) {
+							JOptionPane.showMessageDialog
+							(null,BankApp_Login.w_name+"님의 수수료가 부족합니다.");
+						}else {
+							myMoney = rs.getInt(5) - (money + Commission);
+							mission ++ ;
+						}
+					}
+					if(rs2.next()) {
 						
+						if(my_Account.equals(account)) {
+							JOptionPane.showMessageDialog
+							(null,"본인계좌에는 이체할 수 없습니다.");
+							new BankApp_Transfer();
+							dispose();
+						}else {
+							transName = rs2.getString(2);
+							transMoney = money + rs2.getInt(4);
+							pstmt2 = conn.prepareStatement(AppDao.update());
+							pstmt2.setInt(1, myMoney);
+							pstmt2.setString(2, BankApp_Login.w_name);
+							pstmt2.executeUpdate();
+							pstmt4 = conn.prepareStatement(AppDao.update2());
+							pstmt4.setInt(1, transMoney);
+							pstmt4.setString(2, account);
+							pstmt4.executeUpdate();
+							if(mission > 0) {
+								JOptionPane.showMessageDialog
+								(null,transName+"님에게 이체를 성공하셨습니다.\n"
+										+ "이체 금액은" + money + "이며 수수료는" + Commission + "원 입니다.");
+								System.out.println("날짜: "+ formatedNow);
+								/*
+								 * int mission = 0; int myMoney = 0; int transMoney = 0; int Commission = 0;
+								 * String transName = ""; String my_Bank = ""; String my_Account ="";
+								 */
+							}
+							
+						}
 					}
 					
 				}catch(Exception ex) {
@@ -207,7 +290,7 @@ public class BankApp_Transfer extends JFrame {
 				break;
 			}
 			case "이체": {
-				JOptionPane.showMessageDialog(null, " 이체는 개발중입니다...");
+				new BankApp_Transfer();
 				break;
 			}
 			case "조회": {

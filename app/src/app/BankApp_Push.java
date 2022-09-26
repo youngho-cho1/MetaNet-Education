@@ -64,7 +64,6 @@ public class BankApp_Push extends JFrame {
 					pstmt = conn.prepareStatement(sql);		
 					pstmt.setString(1, BankApp_Login.w_name);
 					rs = pstmt.executeQuery();
-					rsmd = rs.getMetaData();
 					
 					if(rs.next()) {
 //					UserDespoit userdespoit = new UserDespoit().setDespoit(sum);
@@ -162,8 +161,7 @@ public class BankApp_Push extends JFrame {
 				break;
 			}
 			case "이체":{
-				JOptionPane.showMessageDialog
-				(null," 이체는 개발중입니다...");
+				new BankApp_Transfer();
 				break;
 			}
 			case "조회":{

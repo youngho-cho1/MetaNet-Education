@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	오류 페이지입니다.
+	Error Page!!
 </body>
 </html>

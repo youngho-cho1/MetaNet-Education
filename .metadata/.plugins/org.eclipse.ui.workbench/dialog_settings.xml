@@ -6,8 +6,8 @@
 		<item key="org.eclipse.ui.internal.quickaccess.QuickAccessDialogDIALOG_USE_PERSISTED_SIZE" value="true"/>
 		<item key="org.eclipse.ui.internal.quickaccess.QuickAccessDialogDIALOG_USE_PERSISTED_LOCATION" value="false"/>
 		<list key="orderedElements">
-			<item value="org.eclipse.ui.console.ConsoleView"/>
 			<item value="org.eclipse.ui.navigator.ProjectExplorer"/>
+			<item value="org.eclipse.ui.console.ConsoleView"/>
 			<item value="org.eclipse.jdt.ui.PackageExplorer"/>
 			<item value="org.tigris.subversion.subclipse.ui.svnPerspective"/>
 		</list>
@@ -18,15 +18,15 @@
 			<item value="org.eclipse.ui.perspectives"/>
 		</list>
 		<list key="textEntries">
-			<item value="2"/>
 			<item value="1"/>
+			<item value="2"/>
 			<item value="1"/>
 			<item value="1"/>
 		</list>
 		<list key="textArray">
+			<item value="explor"/>
 			<item value="console"/>
 			<item value="con"/>
-			<item value="explor"/>
 			<item value="explo"/>
 			<item value="svn"/>
 		</list>

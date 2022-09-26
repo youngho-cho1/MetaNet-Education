@@ -1,8 +1,16 @@
 package app;
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
-import javax.management.relation.Role;
 import javax.swing.JOptionPane;
 
 class User{
@@ -60,6 +68,42 @@ class Info{
 		this.id = id;
 		return this;
 	}
+}
+class Tinfo{
+	private String id;
+	private String yname;
+	private Date day;
+	private int money;
+	public String getId() {
+		return id;
+	}
+	public Tinfo setId(String id) {
+		this.id = id;
+		return this;
+	}
+	public String getYname() {
+		return yname;
+	}
+	public Tinfo setYname(String yname) {
+		this.yname = yname;
+		return this;
+	}
+	public Date getDay() {
+		return day;
+	}
+	public Tinfo setDay(Date day) {
+		this.day = day;
+		return this;
+	}
+	public int getMoney() {
+		return money;
+	}
+	public Tinfo setMoney(int money) {
+		this.money = money;
+		return this;
+	}
+	
+	
 }
 class UserName{
 	private String name;
@@ -222,15 +266,41 @@ public class AppDao {
 			}catch(Exception e) {JOptionPane.showMessageDialog(null,"공백란을 입력해주세요." );}
 		}
 	}
+	public void trans_insert() {
+		Connection conn = AppDao.getInstance().getConnection();
+		PreparedStatement pstmt = null, pstmt2 = null;
+		ResultSet rs = null;
+		ResultSetMetaData rsmd = null;
+		List<Tinfo> data = new ArrayList<>();
+		try {
+			pstmt = conn.prepareStatement("insert into history(id, yname, day, money) values(?,?,?,?)");
+			pstmt2 = conn.prepareStatement(AppDao.tselect());
+			rs = pstmt2.executeQuery();
+			rsmd = rs.getMetaData();
+			pstmt.setString(1, null);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	public static String update() {
 		String sql = "UPDATE MEMBER SET despoit=? WHERE NAME=?";
 		return sql;
 		
 	}
+	public static String update2() {
+		String sql = "UPDATE MEMBER SET despoit=? WHERE ACCOUNT=?";
+		return sql;
+		
+	}
 
 	public static String select() {
 		String sql = "select bankname, name, id, pwd from member";
+		return sql;
+	}
+	public static String tselect() {
+		String sql = "select id, yname, day, money from history";
 		return sql;
 	}
 	public static String select_id() {

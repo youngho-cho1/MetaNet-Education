@@ -104,6 +104,7 @@ public class BankApp_Login extends JFrame {
 		setVisible(true);
 
 		jLogin.addActionListener(new ActionListener() {
+			int cnt = 0;
 			Connection conn = AppDao.getInstance().getConnection();
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -137,24 +138,30 @@ public class BankApp_Login extends JFrame {
 					}
 					
 					Iterator<User> iterator = data.iterator();
-					while (iterator.hasNext()) {
+					while(iterator.hasNext()) {
 						User userinfo = iterator.next();
-							if (jtf1.getText().equals(userinfo.getId())) {
-								JOptionPane.showMessageDialog(null,
-										userinfo.getBankname() + "은행 " + userinfo.getName() + " 고객님 안녕하세요.");
-										w_name = userinfo.getName();
-								new BankApp_Main();
-								dispose();
-								cnt ++;
-								break;
-							} 
+						if(userinfo.getBankname().equals(radio)) {
+							if(userinfo.getId().equals(jtf1.getText())) {
+								if(userinfo.getPw().equals(String.valueOf(jtf2.getPassword()))) {
+									  JOptionPane.showMessageDialog(null,
+	                                   userinfo.getBankname() + "은행 " + userinfo.getName() + " 고객님 안녕하세요.");
+									   w_name = userinfo.getName();
+                                       new BankApp_Main();
+                                       dispose();
+                                       cnt++;
+                                       break;
+								} 
+							}else {
+									  JOptionPane.showMessageDialog(null,"로그인 정보가 맞지 않습니다.");
+									  break;
+							}
+						}
 					}
-					if(cnt == 0) {
-						JOptionPane.showMessageDialog(null, "로그인 정보가 맞지 않습니다.");
-					}
+
+				}
 					
 
-				} catch (Exception ex) {
+				 catch (Exception ex) {
 					ex.printStackTrace();
 				} 
 			}

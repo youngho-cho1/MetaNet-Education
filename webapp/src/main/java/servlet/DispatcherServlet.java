@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controller.Controller;
-import test.UserInfo;
+import dao.UserInfoDao;
+import util.ServletRequestDataBinder;
 
 @SuppressWarnings("serial")
 @WebServlet("*.do")
@@ -33,50 +34,64 @@ public class DispatcherServlet extends HttpServlet{
 			if(controller == null) {
 				throw new Exception("요청한 서비스를 찾을 수 없습니다.");
 			}
-			if("/userinfo/add.do".equals(servletPath)) {
-				if(req.getParameter("id") != null) {
-					model.put("userinfo", new UserInfo()
-						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
-				}
-				// 모델에 대한 정보만 넣고
-			}
-			else if("/userinfo/login.do".equals(servletPath)) {
-				if(req.getParameter("id") != null) {
-					model.put("userinfo", new UserInfo()
-						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
-				}
-				// 모델에 대한 정보만 넣고
-			}
-			else if("/userinfo/list.do".equals(servletPath)) {
-				if(req.getParameter("id") != null) {
-					model.put("userinfo", new UserInfo()
-						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
-				}
-			}
-			else if("/userinfo/update.do".equals(servletPath)) {
-				if(req.getParameter("id") != null) {
-					model.put("userinfo", new UserInfo()
-						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
-				}
-			}
-			else if("/userinfo/delete.do".equals(servletPath)) {
-				if(req.getParameter("id") != null) {
-					model.put("userinfo", new UserInfo()
-						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
-				}
-			}
-			else if("/userinfo/updateform.do".equals(servletPath)) {
-				if(req.getParameter("id") != null) {
-					model.put("userinfo", new UserInfo()
-						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
-				}
+//			if("/userinfo/add.do".equals(servletPath)) {
+//				if(req.getParameter("id") != null) {
+//					model.put("userinfo", new UserInfo()
+//						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
+//				}
+//				// 모델에 대한 정보만 넣고
+//			}
+//			else if("/userinfo/login.do".equals(servletPath)) {
+//				if(req.getParameter("id") != null) {
+//					model.put("userinfo", new UserInfo()
+//						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
+//				}
+//				// 모델에 대한 정보만 넣고
+//			}
+//			else if("/userinfo/list.do".equals(servletPath)) {
+//				if(req.getParameter("id") != null) {
+//					model.put("userinfo", new UserInfo()
+//						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
+//				}
+//			}
+//			else if("/userinfo/update.do".equals(servletPath)) {
+//				if(req.getParameter("id") != null) {
+//					model.put("userinfo", new UserInfo()
+//						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
+//				}
+//			}
+//			else if("/userinfo/delete.do".equals(servletPath)) {
+//				if(req.getParameter("id") != null) {
+//					model.put("userinfo", new UserInfo()
+//						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
+//				}
+//			}
+//			else if("/userinfo/updateform.do".equals(servletPath)) {
+//				if(req.getParameter("id") != null) {
+//					model.put("userinfo", new UserInfo()
+//						.setId(req.getParameter("id")).setPwd(req.getParameter("pwd")));
+//				}
+//			}
+//			String viewUrl = controller.execute(model);
+//			for( String key : model.keySet()) {
+//				req.setAttribute(key, model.get(key));
+//			}
+//			if(viewUrl.startsWith("redirect:")) {
+//				resp.sendRedirect(viewUrl.substring(9));
+//			}else {
+//				RequestDispatcher rd = req.getRequestDispatcher(viewUrl);
+//				rd.include(req, resp);
+//			}
+			if(controller instanceof DataBinding) {
+				prepareRequestData(req, model, (DataBinding)controller);
 			}
 			String viewUrl = controller.execute(model);
-			for( String key : model.keySet()) {
+			for(String key: model.keySet()) {
 				req.setAttribute(key, model.get(key));
 			}
 			if(viewUrl.startsWith("redirect:")) {
 				resp.sendRedirect(viewUrl.substring(9));
+				return;
 			}else {
 				RequestDispatcher rd = req.getRequestDispatcher(viewUrl);
 				rd.include(req, resp);
@@ -86,8 +101,23 @@ public class DispatcherServlet extends HttpServlet{
 			e.printStackTrace();
 		}
 	}
+	private void prepareRequestData(HttpServletRequest request, HashMap<String, Object> model, DataBinding dataBinding)throws Exception {
+		// TODO Auto-generated method stub
+		Object[] dataBinders = dataBinding.getDataBinders();
+		String dataName = null;
+		Class<?> dataType = null;
+		Object dataObj = null;
+		for( int i = 0; i < dataBinders.length; i+=2) {
+			dataName = (String) dataBinders[i];
+			dataType = (Class<?>) dataBinders[i+1];
+			dataObj = ServletRequestDataBinder.bind(request, dataType, dataName);
+			System.out.println("dataName: "+ dataName + "\ndataObj: " + dataObj);
+			model.put(dataName, dataObj);
+		}
+	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
 	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

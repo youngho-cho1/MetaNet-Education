@@ -5,11 +5,19 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import dao.UserInfoDao;
+import servlet.DataBinding;
 import test.UserInfo;
 
 
-public class UserInfoLoginController implements Controller {
+public class UserInfoLoginController implements Controller, DataBinding {
 	private UserInfoDao userinfoDao;
+	@Override
+	public Object[] getDataBinders() {
+		// TODO Auto-generated method stub
+		return new Object[] {
+				"userinfo", test.UserInfo.class
+		};
+	}
 	public UserInfoLoginController setUserInfoDao(UserInfoDao userinfoDao) {
 		this.userinfoDao = userinfoDao;
 		return this;
@@ -26,12 +34,13 @@ public class UserInfoLoginController implements Controller {
 			if(userinfo != null) {
 				HttpSession session = (HttpSession) model.get("session");
 				session.setAttribute("userinfo", userinfo);
-				return "redirect:../UserInfoList.do";
+				return "redirect:../userinfo/list.do";
 			}
 			else {
 				return "Error.jsp";
 			}
 		}
 	}
+	
 
 }

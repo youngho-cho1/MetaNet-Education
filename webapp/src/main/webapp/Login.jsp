@@ -10,14 +10,13 @@
 </head>
 <body>
 <!-- 컨트롤러서블릿 -->
-	<form action ="/webapp/userinfo/list.do" method="post">
+	<form action ="/webapp/userinfo/login.do" method="post">
 	<div>
 		
 		Login System <p/>
 		<input type="text" name="id" size="10" placeholder="ID input"><p/>
 		<input type="text" name="pwd" size="10" placeholder="PWD input"><p/>
 		<input type="text" name="pwdcheck" size="10" placeholder="PWD check">	<p/>
-		
 		<input type="submit" value ="Login">
 		<button type="button" onclick="location.href='Join.jsp' ">Join</button>
 	</div>

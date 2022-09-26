@@ -16,13 +16,15 @@
 <div>
 
 	<table border='1'>
-	 <c:forEach var="userinfos" items="${userinfos}">
-	 	<tr><td style="cursor:pointer;"><b><a href='UserInfoUpdateFormServlet?id=${userinfos.id}'>${userinfos.id}</a></b></td>
-	 	<td><b>${userinfos.pwd}</b></td>
-	 	<td><b><a href='UserinfoDeleteServlet?id=${userinfos.id}'>Delete</a></b></td>
+	 <c:forEach var="userInfo" items="${userInfo}">
+	 	<tr><td style="cursor:pointer;"><b><a href='UserInfoUpdateFormServlet?id=${userInfo.id}'>${userInfo.id}</a></b></td>
+	 	<td><b>${userInfo.pwd}</b></td>
+	 	<td><b><a href='/webapp/userinfo/delete.do?id=${userInfo.id}'>Delete</a></b></td>
+	 	
 	 	</tr>
 	</c:forEach> 
 	</table>
+
 		<input type="submit" value ="Join"style="cursor:pointer; margin: auto; width : 80px;">
 </div>
 </form>
