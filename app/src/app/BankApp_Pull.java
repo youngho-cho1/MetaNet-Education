@@ -15,6 +15,7 @@ import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class BankApp_Pull extends JFrame {
+	AppDao appdao = new AppDao();
 	BankApp_Pull() {
 		setTitle("출금");
 		JPanel title = new JPanel();

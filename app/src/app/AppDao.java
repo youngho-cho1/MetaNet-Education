@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -18,6 +20,8 @@ class User{
 	private String name;
 	private String pw;
 	private String id;
+	
+	
 	public String getBankname() {
 		return bankname;
 	}
@@ -40,13 +44,6 @@ class User{
 		return this;
 	}
 
-	//	public String getAccount() {
-//		return account;
-//	}
-//	public User setAccount(String account) {
-//		this.account = account;
-//		return this;
-//	}
 	public String getPw() {
 		return pw;
 	}
@@ -54,8 +51,7 @@ class User{
 		this.pw = pw;
 		return this;
 	}
-	
-	
+
 }
 class Info{
 	private String id;
@@ -103,7 +99,64 @@ class Tinfo{
 		return this;
 	}
 	
-	
+}
+class History{
+	private String ybankname;
+	public String getYbankname() {
+		return ybankname;
+	}
+	public History setYbankname(String ybankname) {
+		this.ybankname = ybankname;
+		return this;
+	}
+	private String bankname;
+	private String money;
+	private String account;
+	private String yname;
+	private String day;
+	private String division;
+	public String getBankname() {
+		return bankname;
+	}
+	public History setBankname(String bankname) {
+		this.bankname = bankname;
+		return this;
+	}
+	public String getMoney() {
+		return money;
+	}
+	public History setMoney(String money) {
+		this.money = money;
+		return this;
+	}
+	public String getAccount() {
+		return account;
+	}
+	public History setAccount(String account) {
+		this.account = account;
+		return this;
+	}
+	public String getYname() {
+		return yname;
+	}
+	public History setYname(String yname) {
+		this.yname = yname;
+		return this;
+	}
+	public String getDay() {
+		return day;
+	}
+	public History setDay(String day) {
+		this.day = day;
+		return this;
+	}
+	public String getDivision() {
+		return division;
+	}
+	public History setDivision(String division) {
+		this.division = division;
+		return this;
+	}
 }
 class UserName{
 	private String name;
@@ -150,6 +203,8 @@ class UserDespoit{
 	}
 }
 public class AppDao {
+	static int cnt = 0;
+	static List<History> data = new ArrayList<>();
 	static int join_cnt = 0;
 	private static AppDao instance;
 	static Connection conn;
@@ -267,23 +322,110 @@ public class AppDao {
 		}
 	}
 	public void trans_insert() {
+		LocalDate now = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		String formatedNow = now.format(formatter);
+		BankApp_Transfer.transfer.setDay(formatedNow);
 		Connection conn = AppDao.getInstance().getConnection();
-		PreparedStatement pstmt = null, pstmt2 = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null, pstmt2 = null, pstmt3 = null;
+		ResultSet rs = null, rs2 = null;
 		ResultSetMetaData rsmd = null;
 		List<Tinfo> data = new ArrayList<>();
+		String yname = "";
+		String bankname = BankApp_Transfer.transfer.getBankname();
+		String account = BankApp_Transfer.transfer.getAccount();
+		System.out.println("account: " + account);
+		String money = BankApp_Transfer.transfer.getMoney();
+		String date = "y", date2 = "n";
 		try {
-			pstmt = conn.prepareStatement("insert into history(id, yname, day, money) values(?,?,?,?)");
-			pstmt2 = conn.prepareStatement(AppDao.tselect());
-			rs = pstmt2.executeQuery();
-			rsmd = rs.getMetaData();
-			pstmt.setString(1, null);
+			pstmt2 = conn.prepareStatement("select bankname, name, account, despoit from member where account=?");
+			pstmt2.setString(1, account);
+			rs2 = pstmt2.executeQuery();
+			rsmd = rs2.getMetaData();
+			
+			
+			while(rs2.next()) {
+				BankApp_Transfer.transfer.setYname(rs2.getString(2));
+				yname = rs2.getString(2);
+			}
+			System.out.println("BankApp_Login.w_name: "+BankApp_Login.w_name);
+			System.out.println("yname: " + yname);
+			if(!BankApp_Login.w_name.equals(yname)) {
+			pstmt = conn.prepareStatement("insert into history(ybankname, name, yname, yaccount, division, day, money) values(?,?,?,?,?,?,?)");
+//			insert into history(name, yname, division, money) values('조영호','문채영','y','1000');
+			// y면 입금== 들어오는 돈 n이면 출금 == 나가는 돈
+			pstmt.setString(1, bankname);
+			pstmt.setString(2, BankApp_Login.w_name);
+			pstmt.setString(3, yname);
+			pstmt.setString(4, account);
+			pstmt.setString(5, date);
+			BankApp_Transfer.transfer.setDivision(date);
+			pstmt.setString(6, formatedNow);
+			pstmt.setString(7, money);
+			pstmt.executeUpdate();
+			
+			pstmt3 = conn.prepareStatement("insert into history(ybankname, name, yname, yaccount, division, day, money) values(?,?,?,?,?,?,?)");
+			pstmt3.setString(1, BankApp_Login.y_bank);
+			pstmt3.setString(2, yname);
+			pstmt3.setString(3, BankApp_Login.w_name);
+			pstmt3.setString(4, account);
+			pstmt3.setString(5, date2);
+			pstmt3.setString(6, formatedNow);
+			pstmt3.setString(7, money);
+			pstmt3.executeUpdate();
+			}
+			else {
+				pstmt3 = conn.prepareStatement("insert into history(ybankname, name, yname, yaccount, division, day, money) values(?,?,?,?,?,?,?)");
+				pstmt3.setString(1, BankApp_Login.y_bank);
+				pstmt3.setString(2, yname);
+				pstmt3.setString(3, BankApp_Login.w_name);
+				pstmt3.setString(4, account);
+				pstmt3.setString(5, date2);
+				pstmt3.setString(6, formatedNow);
+				pstmt3.setString(7, money);
+				pstmt3.executeUpdate();
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	public void history() {
+		Connection conn = AppDao.getInstance().getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ResultSetMetaData rsmd = null;
 	
+		BankApp_Transfer.transfer.getAccount();
+		BankApp_Transfer.transfer.getBankname();
+		BankApp_Transfer.transfer.getDay();
+		BankApp_Transfer.transfer.getDivision();
+		BankApp_Transfer.transfer.getMoney();
+		BankApp_Transfer.transfer.getYname();
+		try {
+			pstmt = conn.prepareStatement("select ybankname, bankname, yaccount, despoit, yname, "
+					+ "division, day, money from member left join history ON"
+					+ " member.name = history.name where member.name=? union"
+					+ " select ybankname, bankname, yaccount, despoit, yname, division, day, money  "
+					+ "from member right join history ON member.name = history.name where member.name=?");
+			pstmt.setString(1, BankApp_Login.w_name); 
+			pstmt.setString(2, BankApp_Login.w_name);
+			rs = pstmt.executeQuery();
+
+			//.setYbankname(BankApp_Login.y_bank)
+			while(rs.next()) {
+				History history = new History().setBankname(rs.getString(1)).setYbankname(rs.getString(2)).setAccount(rs.getString(3)).setYname(rs.getString(5))
+						.setDivision(rs.getString(6)).setDay(rs.getString(7)).setMoney(rs.getString(8));
+				data.add(history);
+				cnt++;
+			}
+			
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 	public static String update() {
 		String sql = "UPDATE MEMBER SET despoit=? WHERE NAME=?";
 		return sql;
@@ -297,10 +439,6 @@ public class AppDao {
 
 	public static String select() {
 		String sql = "select bankname, name, id, pwd from member";
-		return sql;
-	}
-	public static String tselect() {
-		String sql = "select id, yname, day, money from history";
 		return sql;
 	}
 	public static String select_id() {

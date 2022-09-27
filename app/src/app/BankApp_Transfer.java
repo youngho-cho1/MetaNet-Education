@@ -10,7 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -26,6 +27,9 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class BankApp_Transfer extends JFrame {
+	static Transfer transfer = new Transfer();
+	static List<Transfer> transfers = new ArrayList<>();
+	AppDao appdao = new AppDao();
 	BankApp_Transfer() {
 		setTitle("계좌이체");
 //		JPanel title = new JPanel();
@@ -118,9 +122,7 @@ public class BankApp_Transfer extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				JOptionPane.showMessageDialog(null,
-					"등급은 개발중입니다...");
-
+				new BankApp_History();
 			}
 			
 		});
@@ -143,7 +145,12 @@ public class BankApp_Transfer extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				if(jtf1.getText().equals("") || jtf2.getText().equals("")) {
+					JOptionPane.showMessageDialog
+					(null,"공백란을 입력해주세요.");
+					new BankApp_Transfer();
+					dispose();
+				}else {
 				int money = Integer.parseInt(jtf2.getText());         //금액
 				String account = jtf1.getText();         //계좌번호
 				try {
@@ -155,6 +162,11 @@ public class BankApp_Transfer extends JFrame {
 					} else if (c.isSelected()) {
 						radio = c.getText();
 					}
+					transfer.setBankname(radio);
+					transfer.setAccount(jtf1.getText());
+					transfer.setMoney(jtf2.getText());
+					
+					
 					String sql = "SELECT BANKNAME, NAME, PWD, ACCOUNT, DESPOIT FROM MEMBER WHERE NAME=?";
 					String custom_sql = "SELECT BANKNAME, NAME, ACCOUNT, DESPOIT FROM MEMBER WHERE BANKNAME=? AND ACCOUNT=?";
 					pstmt = conn.prepareStatement(sql);
@@ -165,8 +177,6 @@ public class BankApp_Transfer extends JFrame {
 					pstmt3.setString(2, account);
 					rs2 = pstmt3.executeQuery();
 					if(rs.next()) {
-						System.out.println("BankName: " + rs.getString(1));
-						System.out.println("Despoit: " + rs.getInt(5));
 						my_Bank = rs.getString(1);
 						if(my_Bank.equals(radio)) {
 							Commission = 0;
@@ -185,7 +195,6 @@ public class BankApp_Transfer extends JFrame {
 						}
 					}
 					if(rs2.next()) {
-						
 						if(my_Account.equals(account)) {
 							JOptionPane.showMessageDialog
 							(null,"본인계좌에는 이체할 수 없습니다.");
@@ -206,21 +215,19 @@ public class BankApp_Transfer extends JFrame {
 								JOptionPane.showMessageDialog
 								(null,transName+"님에게 이체를 성공하셨습니다.\n"
 										+ "이체 금액은" + money + "이며 수수료는" + Commission + "원 입니다.");
-								System.out.println("날짜: "+ formatedNow);
-								/*
-								 * int mission = 0; int myMoney = 0; int transMoney = 0; int Commission = 0;
-								 * String transName = ""; String my_Bank = ""; String my_Account ="";
-								 */
+								appdao.trans_insert();
+								mission = 0;
+								
+								new BankApp_Transfer();
+								dispose();
 							}
-							
 						}
 					}
-					
 				}catch(Exception ex) {
 					ex.printStackTrace();
 				}
 			}
-			
+			}
 		});
 		
 	}

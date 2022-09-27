@@ -15,6 +15,7 @@ import app.BankApp_Main.MenuActionListener;
 
 @SuppressWarnings("serial")
 public class BankApp_Push extends JFrame {
+	AppDao appdao = new AppDao();
 	static int sum = 0;
 	BankApp_Push() {
 		setTitle("예금");

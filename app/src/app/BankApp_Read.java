@@ -14,6 +14,7 @@ import app.BankApp_Main.MenuActionListener;
 
 @SuppressWarnings("serial")
 public class BankApp_Read extends JFrame {
+	AppDao appdao = new AppDao();
 	BankApp_Read() {
 		setTitle("조회");
 		JPanel title = new JPanel();

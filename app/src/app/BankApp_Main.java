@@ -18,6 +18,7 @@ import com.mysql.cj.xdevapi.Statement;
 
 @SuppressWarnings("serial")
 public class BankApp_Main extends JFrame {
+	AppDao appdao = new AppDao();
 	List<UserName> data = new ArrayList<>();
 	BankApp_Main() {
 		

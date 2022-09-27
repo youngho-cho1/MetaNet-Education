@@ -16,6 +16,7 @@ public class BankApp_Login extends JFrame {
 	static int cnt = 0;
 	List<User> data = new ArrayList<>();
 	static String w_name = "";
+	static String y_bank = "";
 
 	public BankApp_Login() {
 
@@ -146,6 +147,7 @@ public class BankApp_Login extends JFrame {
 									  JOptionPane.showMessageDialog(null,
 	                                   userinfo.getBankname() + "은행 " + userinfo.getName() + " 고객님 안녕하세요.");
 									   w_name = userinfo.getName();
+									   y_bank = radio;
                                        new BankApp_Main();
                                        dispose();
                                        cnt++;
