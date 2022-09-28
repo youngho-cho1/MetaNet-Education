@@ -97,7 +97,7 @@ public class BankApp_Push extends JFrame {
 	void createMenu() {
 		JMenuBar mb = new JMenuBar(); // 메뉴바 생성
 		JMenuItem [] menuItem = new JMenuItem [3];
-		String[] itemTitle5 = {"로그아웃", "도움말", "프로그램 종료"};
+		String[] itemTitle5 = {"로그아웃","채팅", "도움말", "프로그램 종료"};
 		JMenu screenMenu1 = new JMenu("예금");
 		JMenu screenMenu2 = new JMenu("출금");
 		JMenu screenMenu3 = new JMenu("이체");

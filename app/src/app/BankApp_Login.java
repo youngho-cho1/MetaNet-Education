@@ -1,25 +1,43 @@
 package app;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
-import com.mysql.cj.xdevapi.Statement;
+import test.Ex24;
 
 public class BankApp_Login extends JFrame {
 	static int cnt = 0;
 	List<User> data = new ArrayList<>();
+	
 	static String w_name = "";
 	static String y_bank = "";
 
 	public BankApp_Login() {
 
+		
 		super("Login");
 		JPanel title = new JPanel();
 		JLabel login = new JLabel("로그인 화면");
@@ -140,6 +158,7 @@ public class BankApp_Login extends JFrame {
 	                                   userinfo.getBankname() + "은행 " + userinfo.getName() + " 고객님 안녕하세요.");
 									   w_name = userinfo.getName();
 									   y_bank = radio;
+//									   ex24.main(null);
                                        new BankApp_Main();
                                        dispose();
                                        cnt++;

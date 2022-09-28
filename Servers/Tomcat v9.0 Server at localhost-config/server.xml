@@ -154,7 +154,7 @@
 
       <Context docBase="webapp" path="/webapp" reloadable="true" source="org.eclipse.jst.jee.server:webapp">
       	<Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" maxTotal="10" maxWaitMillis="-1" name="jdbc/oracle" password="1234" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/webapp" username="root"/>
-      </Context></Host>
+      </Context><Context docBase="shopping" path="/shopping" reloadable="true" source="org.eclipse.jst.jee.server:shopping"/></Host>
     </Engine>
   </Service>
 </Server>

@@ -1,27 +1,25 @@
 package test;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.ServerSocket;
 import java.util.Vector;
 
-public class Ex24 {
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+public class Ex24 implements Runnable {
 	private Vector handlers;
-
-	public Ex24(int port) { // server
-		try {
-			ServerSocket server = new ServerSocket(port);
-			handlers = new Vector();
-			System.out.println("ChatServer is ready");
-
-			while (true) {// 소켓으로 관리하는게 아니라 객체화해서 관리
-				Ex25 handler = new Ex25(this, server.accept()); // this: 서버에 대한 인스턴스
-				handler.start(); // thread로 대응
-			}
-			
-		} catch (Exception e) {
-
-		}
+	private JButton button;
+	int port;
+	public Ex24(int port) {
+		this.port = port;
 	}
-
+	
+	
 	// 서버에서 필요한것들을 생성하면된다
 	public Object getHandler(int index) {
 		return handlers.elementAt(index);
@@ -54,8 +52,42 @@ public class Ex24 {
 		}
 	} // 동기화처리
 
-//	public static void main(String[] args) {
-//		new Ex24(7979);
-//	}
+	public static void main(String[] args) {
+		new Ex24(7979);
+	}
+
+	@Override
+	public void run() {
+		try {
+			
+			ServerSocket server = new ServerSocket(port);
+			handlers = new Vector();
+			System.out.println("ChatServer is ready");
+			
+			new Ex26("localhost");
+			button.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					Ex26.btn_cnt ++ ;
+					new Ex26("localhost");
+				}
+			});
+			System.out.println("Ex26.btn_cnt" + Ex26.btn_cnt);
+			
+				while (true) {// 소켓으로 관리하는게 아니라 객체화해서 관리
+					Ex25 handler = new Ex25(this, server.accept()); // this: 서버에 대한 인스턴스
+					handler.start(); // thread로 대응
+				}
+			
+			
+		} catch (Exception e) {
+
+		}
+		
+		// TODO Auto-generated method stub
+		
+	}
 
 }

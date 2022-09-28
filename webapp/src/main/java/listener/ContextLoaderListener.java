@@ -7,6 +7,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.sql.DataSource;
 
+import controller.UserInfoAddController;
 import controller.UserInfoDeleteController;
 import controller.UserInfoListController;
 import controller.UserInfoLoginController;
@@ -26,6 +27,7 @@ public class ContextLoaderListener implements ServletContextListener {
 			userinfoDao.setDataSource(datasource);
 			sc.setAttribute("/userinfo/login.do", new UserInfoLoginController().setUserInfoDao(userinfoDao));
 			sc.setAttribute("/userinfo/list.do", new UserInfoListController().setUserInfoDao(userinfoDao));
+			sc.setAttribute("/userinfo/add.do", new UserInfoAddController().setUserInfoDao(userinfoDao));
 			sc.setAttribute("/userinfo/delete.do", new UserInfoDeleteController().setUserInfoDao(userinfoDao));
 			sc.setAttribute("/userinfo/update.do", new UserInfoUpdateController().setUserInfoDao(userinfoDao));
 			sc.setAttribute("/userinfo/updateform.do", new UserInfoUpdateFormController().setUserInfoDao(userinfoDao));

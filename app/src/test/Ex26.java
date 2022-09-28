@@ -23,9 +23,16 @@ public class Ex26 extends JFrame implements Runnable, ActionListener{
    private JScrollBar jb;
    private JButton button,button2;
    private List user;
+   static int btn_cnt = 0;
 
    public Ex26(String server)   {
-	   super("채팅");
+	   Runnable runnable = new Ex24(7979);
+	   Thread thread = new Thread(runnable);
+	   thread.run();
+	   if (thread.isAlive()) {
+		   System.out.println("alive");
+	   }
+	   
 //	   	String NickName;
 	   	
 	   	user = new List();
@@ -101,6 +108,7 @@ public class Ex26 extends JFrame implements Runnable, ActionListener{
       if(args.length > 0) {
          new Ex26(args[0]);
       } else {
+
          new Ex26("localhost");
       }
    }

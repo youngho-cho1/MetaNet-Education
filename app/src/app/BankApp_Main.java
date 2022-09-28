@@ -1,21 +1,23 @@
 package app;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-import com.mysql.cj.xdevapi.Statement;
-
-import test.Ex24;
+import test.Ex26;
 
 
 @SuppressWarnings("serial")
@@ -113,8 +115,8 @@ public class BankApp_Main extends JFrame {
 				break;
 			}
 			case "채팅":{
-				new test.Ex24(7979);
-				new test.Ex26("localhost");		
+		    	new Ex26("localhost");
+//				new test.Ex26("localhost");		
 				break;
 			}
 			case "예금":{
