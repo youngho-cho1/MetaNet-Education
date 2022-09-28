@@ -6,6 +6,8 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\user\eclipse-workspace\feane"/>
+			<item value="C:\Users\user\Desktop\feane"/>
 			<item value="C:\Users\user\Downloads\MetaNet-Education-main\MetaNet-Education-main\Test"/>
 		</list>
 	</section>

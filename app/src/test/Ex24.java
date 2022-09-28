@@ -16,6 +16,7 @@ public class Ex24 {
 				Ex25 handler = new Ex25(this, server.accept()); // this: 서버에 대한 인스턴스
 				handler.start(); // thread로 대응
 			}
+			
 		} catch (Exception e) {
 
 		}
@@ -53,8 +54,8 @@ public class Ex24 {
 		}
 	} // 동기화처리
 
-	public static void main(String[] args) {
-		new Ex24(7979);
-	}
+//	public static void main(String[] args) {
+//		new Ex24(7979);
+//	}
 
 }

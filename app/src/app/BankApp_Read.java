@@ -42,6 +42,7 @@ public class BankApp_Read extends JFrame {
 		add(jp2, BorderLayout.CENTER);
 		jp1.add(pushPanel);jp1.add(pushPanel2);
 		setBounds(200, 200, 380, 250);
+		setResizable(false);
 		setVisible(true);
 		
 		btn.addActionListener(new ActionListener() {
@@ -126,6 +127,11 @@ public class BankApp_Read extends JFrame {
 						+ "연락처: 010-0000-0000 \n"
 						+ " 이메일: mmy4637@naver.com \n"
 						+ " 버전: 1.0.0");
+				break;
+			}
+			case "채팅":{
+				new test.Ex24(7979);
+				new test.Ex26("localhost");		
 				break;
 			}
 			case "예금":{

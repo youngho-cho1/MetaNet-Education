@@ -47,33 +47,26 @@ public class BankApp_Login extends JFrame {
 		// 비밀번호 라벨
 		pwdPanel2.add(jtf2);
 		// 비밀번호 필드 입력칸
-
 		JPanel bankPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		JLabel jlb3 = new JLabel("은행 : ", JLabel.CENTER);
 		JPanel bankPanel2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
 		JRadioButton a = new JRadioButton("기업");
 		JRadioButton b = new JRadioButton("농협");
 		JRadioButton c = new JRadioButton("신한");
-
 		a.setSelected(true);
-
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(a);
 		bg.add(b);
 		bg.add(c);
-
 		// radio panel
 		JPanel radioPanel = new JPanel();
 		radioPanel.add(a);
 		radioPanel.add(b);
 		radioPanel.add(c);
-
 		bankPanel.add(jlb3);
 		// 은행 라벨
 		bankPanel2.add(radioPanel);
 		// 은행 라디오 버튼
-
 		jp1.add(bankPanel);
 		jp1.add(bankPanel2);
 		// 은행 패널, 은행 선택 라디오 버튼
@@ -83,18 +76,15 @@ public class BankApp_Login extends JFrame {
 		jp1.add(pwdPanel);
 		jp1.add(pwdPanel2);
 		// 비밀번호 입력칸, 비밀번호 패널
-
 		JPanel loginPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		JButton jLogin = new JButton("로그인");
 		JPanel joinPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JButton join = new JButton("회원가입");
-
 		loginPanel.add(jLogin);
 		joinPanel.add(join);
 		jp1.add(loginPanel);
 		jp1.add(joinPanel);
 		// 로그인 회원가입 패널
-
 		JPanel jp2 = new JPanel();
 		jp2.setLayout(new FlowLayout(FlowLayout.LEFT,0, 0));
 		jp2.add(jp1);
@@ -102,6 +92,8 @@ public class BankApp_Login extends JFrame {
 		add(title, BorderLayout.NORTH);
 		add(jp2, BorderLayout.CENTER);
 		setBounds(200, 200, 380, 250);
+		
+		setResizable(false);
 		setVisible(true);
 
 		jLogin.addActionListener(new ActionListener() {
@@ -157,12 +149,12 @@ public class BankApp_Login extends JFrame {
 									  JOptionPane.showMessageDialog(null,"로그인 정보가 맞지 않습니다.");
 									  break;
 							}
-						}
+						}else {
+							  JOptionPane.showMessageDialog(null,"로그인 정보가 맞지 않습니다.");
+							  break;
 					}
-
+					}
 				}
-					
-
 				 catch (Exception ex) {
 					ex.printStackTrace();
 				} 

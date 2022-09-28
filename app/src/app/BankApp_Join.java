@@ -1,21 +1,28 @@
 package app;
-import javax.swing.*;
-
-import com.mysql.cj.xdevapi.Statement;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+
+import com.mysql.cj.xdevapi.Statement;
 @SuppressWarnings("serial")
 public class BankApp_Join extends JFrame  {
 	static Member member = new Member();
@@ -24,6 +31,7 @@ public class BankApp_Join extends JFrame  {
 	AppDao appdao = new AppDao();
 	String choice = null;
 	public BankApp_Join() {
+		Random rd = new Random();
 		setTitle("회원관리");
 		JLabel title = new JLabel("회원가입", JLabel.CENTER);
 		
@@ -33,6 +41,8 @@ public class BankApp_Join extends JFrame  {
 		JTextField bank = new JTextField(10);
 		JTextField name = new JTextField(10);
 		JTextField account = new JTextField(10);
+		account.setText((rd.nextInt(8)+1)+rd.nextInt(9)+rd.nextInt(9)+"-"+rd.nextInt(9)+rd.nextInt(9)+rd.nextInt(9)+rd.nextInt(9)+rd.nextInt(9)+rd.nextInt(9)+"-"+rd.nextInt(9)+rd.nextInt(9)+"-"+rd.nextInt(9)+rd.nextInt(9)+rd.nextInt(9));
+		account.setEditable(false);
 		JTextField id = new JTextField(10);
 		JPasswordField pwd = new JPasswordField(10);
 		
@@ -91,6 +101,7 @@ public class BankApp_Join extends JFrame  {
 		
 		setBounds(200, 200, 250, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		setVisible(true);
 		
 		join.addActionListener(new ActionListener() {

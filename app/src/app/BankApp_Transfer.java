@@ -29,6 +29,7 @@ import javax.swing.JTextField;
 public class BankApp_Transfer extends JFrame {
 	static Transfer transfer = new Transfer();
 	static List<Transfer> transfers = new ArrayList<>();
+	static int min = 0;
 	AppDao appdao = new AppDao();
 	BankApp_Transfer() {
 		setTitle("계좌이체");
@@ -115,6 +116,7 @@ public class BankApp_Transfer extends JFrame {
 //		add(title, BorderLayout.NORTH);
 		add(jp2, BorderLayout.CENTER);
 		setBounds(200, 200, 450, 250);
+		setResizable(false);
 		setVisible(true);
 		
 		rank.addActionListener(new ActionListener() {
@@ -122,7 +124,7 @@ public class BankApp_Transfer extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				new BankApp_History();
+					new BankApp_History();
 			}
 			
 		});
@@ -200,7 +202,18 @@ public class BankApp_Transfer extends JFrame {
 							(null,"본인계좌에는 이체할 수 없습니다.");
 							new BankApp_Transfer();
 							dispose();
-						}else {
+						}
+				
+						else if(!account.equals(rs2.getString(3))) {
+							JOptionPane.showMessageDialog
+							(null,"정보를 다시 입력해주세요.");
+							new BankApp_Transfer();
+							dispose();
+						}
+						else {
+							System.out.println("account: " + account);
+							System.out.println("rs.getString: " +rs.getString(3));
+
 							transName = rs2.getString(2);
 							transMoney = money + rs2.getInt(4);
 							pstmt2 = conn.prepareStatement(AppDao.update());
@@ -217,10 +230,10 @@ public class BankApp_Transfer extends JFrame {
 										+ "이체 금액은" + money + "이며 수수료는" + Commission + "원 입니다.");
 								appdao.trans_insert();
 								mission = 0;
-								
 								new BankApp_Transfer();
 								dispose();
 							}
+
 						}
 					}
 				}catch(Exception ex) {
@@ -284,6 +297,11 @@ public class BankApp_Transfer extends JFrame {
 			case "도움말": {
 				JOptionPane.showMessageDialog(null,
 						" 제작자: 조영호\n " + "연락처: 010-0000-0000 \n" + " 이메일: mmy4637@naver.com \n" + " 버전: 1.0.0");
+				break;
+			}
+			case "채팅":{
+				new test.Ex24(7979);
+				new test.Ex26("localhost");		
 				break;
 			}
 			case "예금": {

@@ -203,6 +203,7 @@ class UserDespoit{
 	}
 }
 public class AppDao {
+	static String myaccount = "";
 	static int cnt = 0;
 	static List<History> data = new ArrayList<>();
 	static int join_cnt = 0;
@@ -412,13 +413,13 @@ public class AppDao {
 			pstmt.setString(2, BankApp_Login.w_name);
 			rs = pstmt.executeQuery();
 
-			//.setYbankname(BankApp_Login.y_bank)
-			while(rs.next()) {
-				History history = new History().setBankname(rs.getString(1)).setYbankname(rs.getString(2)).setAccount(rs.getString(3)).setYname(rs.getString(5))
-						.setDivision(rs.getString(6)).setDay(rs.getString(7)).setMoney(rs.getString(8));
-				data.add(history);
-				cnt++;
-			}
+				data.clear();
+				while(rs.next()) {
+					History history = new History().setBankname(rs.getString(1)).setYbankname(rs.getString(2)).setAccount(rs.getString(3)).setYname(rs.getString(5))
+							.setDivision(rs.getString(6)).setDay(rs.getString(7)).setMoney(rs.getString(8));
+					data.add(history);
+				}
+			
 			
 		
 		}catch(Exception e) {
@@ -430,6 +431,22 @@ public class AppDao {
 		String sql = "UPDATE MEMBER SET despoit=? WHERE NAME=?";
 		return sql;
 		
+	}
+	public void accountselect() {
+		Connection conn = AppDao.getInstance().getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("SELECT ACCOUNT FROM MEMBER WHERE NAME =?");
+			pstmt.setString(1, BankApp_Login.w_name);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				System.out.println(rs.getString(1));
+				myaccount = rs.getString(1);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	public static String update2() {
 		String sql = "UPDATE MEMBER SET despoit=? WHERE ACCOUNT=?";

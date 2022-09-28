@@ -15,41 +15,53 @@ import javax.swing.*;
 
 import com.mysql.cj.xdevapi.Statement;
 
+import test.Ex24;
+
 
 @SuppressWarnings("serial")
 public class BankApp_Main extends JFrame {
 	AppDao appdao = new AppDao();
 	List<UserName> data = new ArrayList<>();
 	BankApp_Main() {
+		appdao.accountselect();
+		JTextField name = new JTextField(15);
+		JTextField account = new JTextField(15);
 		
-		/*
-		 * Connection conn = AppDao.getInstance().getConnection(); PreparedStatement
-		 * pstmt = null; Statement stmt = null; ResultSet rs = null; ResultSetMetaData
-		 * rsmd = null;
-		 * 
-		 * try { pstmt = conn.prepareStatement(AppDao.select_id()); rs =
-		 * pstmt.executeQuery(); rsmd = rs.getMetaData(); while(rs.next()) { UserName
-		 * username = new UserName().setName(rs.getString(2)); data.add(username); }
-		 * Iterator<UserName> iterator = data.iterator(); while(iterator.hasNext()) {
-		 * 
-		 * } }catch(SQLException e) { e.printStackTrace(); }
-		 */
-	
-//		System.out.println(	BankApp_Login.w_name);
+		JPanel accountPanel = new JPanel();
+		JPanel namePanel = new JPanel();
+		namePanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		namePanel.add(new JLabel("이름 : "));
+		namePanel.add(name);
+		name.setText(BankApp_Login.w_name);
+		name.setEditable(false);
+		account.setText(AppDao.myaccount);
+		account.setEditable(false);
+		accountPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		accountPanel.add(new JLabel("계좌 번호 : "));
+		accountPanel.add(account);
 		setTitle("메인");
 		createMenu();
+		JPanel formPanel = new JPanel();
+		formPanel.setLayout(new GridLayout(4, 1));
+		formPanel.add(namePanel);
+		formPanel.add(accountPanel);
+		JPanel contentPanel = new JPanel();
+		contentPanel.setLayout(new FlowLayout());
+		contentPanel.add(formPanel);
+		add(contentPanel, BorderLayout.CENTER);
 		setBounds(200, 200, 380, 250);
+		setResizable(false);
 		setVisible(true);
 	}
 	void createMenu() {
 		JMenuBar mb = new JMenuBar(); // 메뉴바 생성
 		JMenuItem [] menuItem = new JMenuItem [3];
-		String[] itemTitle5 = {"로그아웃", "도움말", "프로그램 종료"};
+		String[] itemTitle5 = {"로그아웃","채팅", "도움말", "프로그램 종료"};
 		JMenu screenMenu1 = new JMenu("예금");
 		JMenu screenMenu2 = new JMenu("출금");
 		JMenu screenMenu3 = new JMenu("이체");
 		JMenu screenMenu4 = new JMenu("조회");
-		JMenu screenMenu5 = new JMenu("종료");
+		JMenu screenMenu5 = new JMenu("도움");
 		
 		screenMenu1.add("예금").addActionListener(new MenuActionListener());
 		screenMenu2.add("출금").addActionListener(new MenuActionListener());
@@ -100,7 +112,13 @@ public class BankApp_Main extends JFrame {
 						+ " 버전: 1.0.0");
 				break;
 			}
+			case "채팅":{
+				new test.Ex24(7979);
+				new test.Ex26("localhost");		
+				break;
+			}
 			case "예금":{
+				
 				new BankApp_Push();
 				dispose();
 				break;
