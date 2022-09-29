@@ -22,6 +22,7 @@ public class UserInfoLoginController implements Controller, DataBinding {
 		this.userinfoDao = userinfoDao;
 		return this;
 	}
+	@SuppressWarnings("unused")
 	@Override
 	public String execute(Map<String, Object> model) throws Exception {
 		// TODO Auto-generated method stub

@@ -64,22 +64,19 @@ public class Ex24 implements Runnable {
 			handlers = new Vector();
 			System.out.println("ChatServer is ready");
 			
-			new Ex26("localhost");
+			
 			button.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					Ex26.btn_cnt ++ ;
 					new Ex26("localhost");
 				}
 			});
-			System.out.println("Ex26.btn_cnt" + Ex26.btn_cnt);
 			
-				while (true) {// 소켓으로 관리하는게 아니라 객체화해서 관리
+			while (true) {// 소켓으로 관리하는게 아니라 객체화해서 관리
 					Ex25 handler = new Ex25(this, server.accept()); // this: 서버에 대한 인스턴스
-					handler.start(); // thread로 대응
-				}
+			}
 			
 			
 		} catch (Exception e) {

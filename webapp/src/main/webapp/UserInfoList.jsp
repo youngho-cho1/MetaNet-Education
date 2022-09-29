@@ -17,7 +17,7 @@
 
 	<table border='1'>
 	 <c:forEach var="userInfo" items="${userInfo}">
-	 	<tr><td style="cursor:pointer;"><b><a href='UserInfoUpdateFormServlet?id=${userInfo.id}'>${userInfo.id}</a></b></td>
+	 	<tr><td style="cursor:pointer;"><b><a href='/webapp/userinfo/updateform.do?id=${userInfo.id}'>${userInfo.id}</a></b></td>
 	 	<td><b>${userInfo.pwd}</b></td>
 	 	<td><b><a href='/webapp/userinfo/delete.do?id=${userInfo.id}'>Delete</a></b></td>
 	 	

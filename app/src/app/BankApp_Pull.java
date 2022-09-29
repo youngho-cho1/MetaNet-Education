@@ -12,6 +12,8 @@ import java.util.List;
 
 import javax.swing.*;
 
+import app.BankApp_Main.MenuActionListener;
+
 
 @SuppressWarnings("serial")
 public class BankApp_Pull extends JFrame {
@@ -99,13 +101,13 @@ public class BankApp_Pull extends JFrame {
 	}
 	void createMenu() {
 		JMenuBar mb = new JMenuBar(); // 메뉴바 생성
-		JMenuItem [] menuItem = new JMenuItem [3];
+		JMenuItem [] menuItem = new JMenuItem [4];
 		String[] itemTitle5 = {"로그아웃","채팅", "도움말", "프로그램 종료"};
 		JMenu screenMenu1 = new JMenu("예금");
 		JMenu screenMenu2 = new JMenu("출금");
 		JMenu screenMenu3 = new JMenu("이체");
 		JMenu screenMenu4 = new JMenu("조회");
-		JMenu screenMenu5 = new JMenu("종료");
+		JMenu screenMenu5 = new JMenu("도움");
 		
 		screenMenu1.add("예금").addActionListener(new MenuActionListener());
 		screenMenu2.add("출금").addActionListener(new MenuActionListener());
@@ -116,7 +118,7 @@ public class BankApp_Pull extends JFrame {
 			menuItem[i] = new JMenuItem(itemTitle5[i]); 
 			menuItem[i].addActionListener(new MenuActionListener()); 
 			screenMenu5.add(menuItem[i]);
-			if(i == 2) {
+			if(i == 3) {
 				break;
 			}else {
 				screenMenu5.addSeparator();

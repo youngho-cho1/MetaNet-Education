@@ -9,7 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Ex25 extends Thread {
+public class Ex25  {
 	private Socket s;
 	private BufferedReader i;
 	private PrintWriter o;
@@ -25,20 +25,10 @@ public class Ex25 extends Thread {
 		OutputStreamWriter osw = new OutputStreamWriter(os);
 		o = new PrintWriter(osw, true);
 		i = new BufferedReader(isr);
-	}
-	public String getUser() {
-		return user;
-	}
-	public void setUser(String user) {
-		this.user = user;
-	}
-//   public Ex21() {
-//      // TODO Auto-generated constructor stub
-//   }
-	public void run() {
 		String name = ""; // 사용자가 들어올때
 		try {
 			name = i.readLine();
+			System.out.println(name);
 			setUser(name);
 			server.register(this);
 //         NickNameList.add(name);
@@ -47,6 +37,7 @@ public class Ex25 extends Thread {
 			// 이곳에 append?
 			while (true) {
 				String msg = i.readLine();
+				System.out.println(msg);
 				broadcast(name + " - " + msg);
 			}
 		} catch (Exception e) {
@@ -61,6 +52,13 @@ public class Ex25 extends Thread {
 		} catch (IOException ex) {
 		}
 	}
+	public String getUser() {
+		return user;
+	}
+	public void setUser(String user) {
+		this.user = user;
+	}
+
 
 	protected void println(String message) {
 		o.println(message);

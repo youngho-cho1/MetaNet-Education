@@ -1,22 +1,16 @@
 package controller;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import dao.UserInfoDao;
+import servlet.DataBinding;
 import test.UserInfo;
 
 
-public class UserInfoDeleteController implements Controller {
+public class UserInfoDeleteController implements Controller, DataBinding {
 	private UserInfoDao userinfoDao;
-	@Override
-	public Object[] getDataBinders() {
-		// TODO Auto-generated method stub
-		return new Object[] {
-				"userinfo", test.UserInfo.class
-		};
-	}
+	
 	public UserInfoDeleteController setUserInfoDao(UserInfoDao userinfoDao) {
 		this.userinfoDao = userinfoDao;
 		return this;
@@ -26,22 +20,31 @@ public class UserInfoDeleteController implements Controller {
 	public String execute(Map<String, Object> model) throws Exception {
 		// TODO Auto-generated method stub
 	
-		UserInfo userinfo = (UserInfo) model.get("userinfo");
-		if(userinfo != null) {
-			HttpSession session = (HttpSession) model.get("session");
-			session.setAttribute("userInfo", userinfo);
-			int result = userinfoDao.delete("id");
+		if(model.get("userinfo") == null) {
+			return "/userinfo/list.do";
+		}else {
+			UserInfo addInfo = (UserInfo) model.get("userinfo");
+			
+			int result = userinfoDao.delete(addInfo.getId());
 			if(result > -1) {
-				return "redirect:../UserInfoList.jsp";
-			}
-			else {
-				return "/Error.jsp";
+				HttpSession session = (HttpSession) model.get("session");
+				session.setAttribute("result", result);
+				return "redirect:../userinfo/list.do";
+			}else {
+				return "Error.jsp";
 			}
 		}
-		return "/Error.jsp";
+		
 	
 	}
-
+	
+	@Override
+	public Object[] getDataBinders() {
+		// TODO Auto-generated method stub
+		return new Object[] {
+				"userinfo", test.UserInfo.class
+		};
+	}
 	
 
 }

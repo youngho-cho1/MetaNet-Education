@@ -35,6 +35,7 @@ public class UserInfoUpdateFormServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charaset=UTF-8");
 		String id = request.getParameter("id");
+	
 		try {
 			UserInfoDao userinfoDao = new UserInfoDaoImpl();
 			UserInfo userinfo = userinfoDao.selectOne(id);

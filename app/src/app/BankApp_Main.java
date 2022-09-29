@@ -57,7 +57,7 @@ public class BankApp_Main extends JFrame {
 	}
 	void createMenu() {
 		JMenuBar mb = new JMenuBar(); // 메뉴바 생성
-		JMenuItem [] menuItem = new JMenuItem [3];
+		JMenuItem [] menuItem = new JMenuItem [4];
 		String[] itemTitle5 = {"로그아웃","채팅", "도움말", "프로그램 종료"};
 		JMenu screenMenu1 = new JMenu("예금");
 		JMenu screenMenu2 = new JMenu("출금");
@@ -74,7 +74,7 @@ public class BankApp_Main extends JFrame {
 			menuItem[i] = new JMenuItem(itemTitle5[i]); 
 			menuItem[i].addActionListener(new MenuActionListener()); 
 			screenMenu5.add(menuItem[i]);
-			if(i == 2) {
+			if(i == 3) {
 				break;
 			}else {
 				screenMenu5.addSeparator();
@@ -116,7 +116,6 @@ public class BankApp_Main extends JFrame {
 			}
 			case "채팅":{
 		    	new Ex26("localhost");
-//				new test.Ex26("localhost");		
 				break;
 			}
 			case "예금":{

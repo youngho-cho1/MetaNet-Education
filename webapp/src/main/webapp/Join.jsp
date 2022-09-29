@@ -10,7 +10,7 @@
 </head>
 <body>
 <!-- 컨트롤러서블릿 -->
-	<form action ="/webapp/userinfo/insert.do" method="post">
+	<form action ="/webapp/userinfo/add.do" method="post">
 	<div>
 		
 		Join System <p/>

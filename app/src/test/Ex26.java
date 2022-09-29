@@ -51,7 +51,7 @@ public class Ex26 extends JFrame implements Runnable, ActionListener{
 
 		add(user,"East");
 		Panel bottom2 = new Panel(new FlowLayout());
-		label = new JLabel("사용자 이름");
+		label = new JLabel("메세지");
 		bottom2.add(button);
 		bottom2.add(button2);
 		bottom.add(bottom2,"East");
@@ -70,13 +70,14 @@ public class Ex26 extends JFrame implements Runnable, ActionListener{
    public void actionPerformed(ActionEvent e) {
       // TODO Auto-generated method stub
       Object c = e.getSource(); // getsource는 모든 이밴트 발생 객체를 가져옴
-      if(c == input) {
-         label.setText("메세지");
-         o.println(input.getText()); // input에 텍스트를 가져와서 o.println에 찍어? --> 사용자 이름으로 바꿔 -> 그 다음부턴 메세지를 보내는거
-         input.setText("");
-         
-      }
-   }
+
+		if (c == input) {
+			o.println(input.getText()); // input에 텍스트를 가져와서 o.println에 찍어? --> 사용자 이름으로 바꿔 -> 그 다음부턴 메세지를 보내는
+			output.append(input.getText() + "\n");
+			input.setText("");
+
+		}
+	}
 
    @Override
    public void run() {
@@ -91,6 +92,7 @@ public class Ex26 extends JFrame implements Runnable, ActionListener{
             String line = i.readLine();
             StringTokenizer st = new StringTokenizer(line, "#");
             output.append(st.nextToken() + "\n");
+            System.out.println("st.nextToken: " + st.nextToken());
             user.removeAll();
             while(st.hasMoreElements()) {
             	user.add(st.nextToken());

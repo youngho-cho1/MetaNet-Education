@@ -12,16 +12,16 @@
 	
 		
 	
-<form action ="/webapp/ControllerServlet?command=update" method="post">
+<form action ="/webapp/userinfo/update.do" method="post">
 	<table border="1">
 		<tr>
 				<td><input type="text" name = "id" value ="${userinfo.id}" readonly="readonly" ></td>
 				<td><input type="text" name = "pwd" value ="${userinfo.pwd}"></td>
 			<th><input type="submit" value="회원수정"/></th>
 			<th><input type="button" value="삭제"
-				onclick='location.href="UserInfoDeleteServlet?id=${userinfo.id}";'/></th>
+				onclick='location.href="/webapp/userinfo/delet.do?id=${userinfo.id}";'/></th>
 			<th><input type="reset" value="취소"
-				onclick='location.href="UserInfoListServlet";'/></th>
+				onclick='location.href="/webapp/userinfo/list.do";'/></th>
 		</tr>
 	</table>
 	</form>
