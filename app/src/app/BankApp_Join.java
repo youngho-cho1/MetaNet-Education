@@ -41,7 +41,7 @@ public class BankApp_Join extends JFrame  {
 		JTextField bank = new JTextField(10);
 		JTextField name = new JTextField(10);
 		JTextField account = new JTextField(10);
-		account.setText((rd.nextInt(8)+1)+rd.nextInt(9)+rd.nextInt(9)+"-"+rd.nextInt(9)+rd.nextInt(9)+rd.nextInt(9)+rd.nextInt(9)+rd.nextInt(9)+rd.nextInt(9)+"-"+rd.nextInt(9)+rd.nextInt(9)+"-"+rd.nextInt(9)+rd.nextInt(9)+rd.nextInt(9));
+		account.setText((rd.nextInt(8)+2)+(rd.nextInt(8)+1)+rd.nextInt(9)+"-"+rd.nextInt(9)+rd.nextInt(9)+rd.nextInt(9)+rd.nextInt(9)+rd.nextInt(9)+rd.nextInt(9)+"-"+rd.nextInt(9)+rd.nextInt(9)+"-"+rd.nextInt(9)+rd.nextInt(9)+rd.nextInt(9));
 		account.setEditable(false);
 		JTextField id = new JTextField(10);
 		JPasswordField pwd = new JPasswordField(10);

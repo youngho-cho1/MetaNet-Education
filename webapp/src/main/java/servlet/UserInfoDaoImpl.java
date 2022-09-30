@@ -1,6 +1,7 @@
 package servlet;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -11,10 +12,12 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import component.Component;
 import dao.UserInfoDao;
 import test.DBUtil;
 import test.UserInfo;
 
+@Component("userinfoDao")
 public class UserInfoDaoImpl implements UserInfoDao {
 	private DataSource datasource;
 	public void setDataSource(DataSource datasource) {
@@ -143,6 +146,8 @@ public class UserInfoDaoImpl implements UserInfoDao {
 	@Override
 	public UserInfo exist(String id, String pwd) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println("id" + id);
+		System.out.println("pwd" + pwd);
 		Connection conn = DBUtil.getInstance().getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

@@ -4,11 +4,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import component.Component;
 import dao.UserInfoDao;
 import servlet.DataBinding;
 import servlet.UserInfoDaoImpl;
 import test.UserInfo;
 
+@Component("/userinfo/updateform.do")
 public class UserInfoUpdateFormController implements Controller, DataBinding {
 	private UserInfoDao userinfoDao;
 	public Object setUserInfoDao(UserInfoDaoImpl userinfoDao) {

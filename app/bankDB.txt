@@ -1,0 +1,23 @@
+-----------------------------member table-------------------------------
+create table member (
+	bankname varchar(50) not null,
+    name varchar(20) not null unique key,
+    id varchar(50)  primary key,
+	pwd varchar(20) not null,
+	account  varchar(50) not null unique key,
+    despoit  int not null
+);
+
+------------------------------history table -----------------------------
+
+create table history (
+	hno	int	auto_increment primary key,
+    ybankname varchar(50) not null ,
+    name varchar(50) not null,
+    yname varchar(20) not null,
+    yaccount varchar(50) not null,
+    division varchar(10) not null,
+    day date,
+	money int not null,
+	foreign key(name) references member(name)
+);

@@ -4,10 +4,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import component.Component;
 import dao.UserInfoDao;
 import servlet.DataBinding;
 import test.UserInfo;
-
+@Component("/userinfo/add.do")
 public class UserInfoAddController implements Controller, DataBinding {
 	private UserInfoDao userinfoDao;
 	

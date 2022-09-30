@@ -4,11 +4,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import component.Component;
 import dao.UserInfoDao;
 import servlet.DataBinding;
 import test.UserInfo;
 
-
+@Component("/userinfo/login.do")
 public class UserInfoLoginController implements Controller, DataBinding {
 	private UserInfoDao userinfoDao;
 	@Override
@@ -31,7 +32,10 @@ public class UserInfoLoginController implements Controller, DataBinding {
 			return "/Login.jsp";
 		}else {
 			UserInfo loginInfo = (UserInfo) model.get("userinfo");
+			System.out.println("loginInfo" + loginInfo.getId());
+			System.out.println("loginInfo" + loginInfo.getPwd());
 			UserInfo userinfo = userinfoDao.exist(loginInfo.getId(), loginInfo.getPwd());
+			
 			if(userinfo != null) {
 				HttpSession session = (HttpSession) model.get("session");
 				session.setAttribute("userinfo", userinfo);

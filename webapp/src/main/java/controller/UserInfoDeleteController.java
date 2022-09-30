@@ -3,11 +3,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import component.Component;
 import dao.UserInfoDao;
 import servlet.DataBinding;
 import test.UserInfo;
 
-
+@Component("/userinfo/delete.do")
 public class UserInfoDeleteController implements Controller, DataBinding {
 	private UserInfoDao userinfoDao;
 	

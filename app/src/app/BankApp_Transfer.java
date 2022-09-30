@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,8 +26,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-
-import app.BankApp_Main.MenuActionListener;
 
 @SuppressWarnings("serial")
 public class BankApp_Transfer extends JFrame {
@@ -130,6 +130,16 @@ public class BankApp_Transfer extends JFrame {
 			}
 			
 		});
+		jtf1.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent ke) {
+				JTextField src = (JTextField)ke.getSource();
+				if(src.getText().length() > 15) {
+					ke.consume();
+					JOptionPane.showMessageDialog
+					(null,"계좌번호 입력칸을 준수해주세요.");
+				}
+			}
+		});
 		tran.addActionListener(new ActionListener() {
 			LocalDate now = LocalDate.now();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
@@ -181,6 +191,8 @@ public class BankApp_Transfer extends JFrame {
 					pstmt3.setString(2, account);
 					rs2 = pstmt3.executeQuery();
 					if(rs.next()) {
+					
+					
 						my_Bank = rs.getString(1);
 						if(my_Bank.equals(radio)) {
 							Commission = 0;
@@ -199,6 +211,11 @@ public class BankApp_Transfer extends JFrame {
 						}
 					}
 					if(rs2.next()) {
+					
+						if(!jtf1.getText().equals(rs2.getString(3))) {
+							JOptionPane.showMessageDialog
+							(null,"계좌번호 정보가 틀립니다.");
+						}
 						if(my_Account.equals(account)) {
 							JOptionPane.showMessageDialog
 							(null,"본인계좌에는 이체할 수 없습니다.");

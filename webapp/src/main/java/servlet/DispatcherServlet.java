@@ -38,6 +38,7 @@ public class DispatcherServlet extends HttpServlet{
 				prepareRequestData(req, model, (DataBinding)controller);
 			}
 			String viewUrl = controller.execute(model);
+			System.out.println("viewurl" + viewUrl);
 			for(String key: model.keySet()) {
 				req.setAttribute(key, model.get(key));
 			}

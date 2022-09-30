@@ -5,10 +5,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import component.Component;
 import dao.UserInfoDao;
 import test.UserInfo;
 
 
+@Component("/userinfo/list.do")
 public class UserInfoListController implements Controller {
 
 	private UserInfoDao userinfoDao;
