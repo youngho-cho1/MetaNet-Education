@@ -1,0 +1,2 @@
+insert into member(id, pwd, name, zip_num, address, phone) values
+('one', '1111', '나회원', '133-110', '서울시성동구성수동1가 1번지21호', '010-1111-1111');

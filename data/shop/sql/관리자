@@ -1,0 +1,1 @@
+insert into worker values('admin', 'admin', '나관리', '010-1111-1111');

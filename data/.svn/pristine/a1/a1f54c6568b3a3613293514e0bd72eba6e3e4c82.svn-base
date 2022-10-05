@@ -1,0 +1,1 @@
+<Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" maxActive="10" maxWait="-1" name="jdbc/oracle" password="java" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/webapp" username="root"/>
