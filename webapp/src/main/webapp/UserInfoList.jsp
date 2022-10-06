@@ -1,5 +1,6 @@
 <%@page import="test.DBUtil"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" 
+pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 <%@ page import ="java.util.*" %>
 <%-- <a href='/webapp/ControllerServlet?command=update_form&id=<%=userInfo.getId()%>'></a> 업데이트 폼 이동
